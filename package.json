@@ -1,0 +1,22 @@
+{
+  "name": "nexus",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --mode web",
+    "build": "vite build --mode tasker",
+    "build:web": "vite build --mode web",
+    "preview": "vite preview --mode web"
+  },
+  "devDependencies": {
+    "vite": "^8.3.5",
+    "vite-plugin-singlefile": "^2.3.4"
+  },
+  "dependencies": {
+    "lucide": "^1.61.0"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}

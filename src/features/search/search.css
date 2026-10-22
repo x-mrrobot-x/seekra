@@ -1,0 +1,196 @@
+.mode-switch {
+  display: flex;
+  background: var(--surface);
+  border: 0.1rem solid var(--border);
+  backdrop-filter: blur(1.2rem);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xxs);
+  position: relative;
+  margin-bottom: var(--space-md);
+}
+
+.mode-switch button {
+  flex: 1;
+  background: none;
+  border: 0;
+  color: var(--muted);
+  padding: var(--space-sm) 0;
+  font-size: var(--font-sm);
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  position: relative;
+  z-index: 1;
+  transition: color .25s;
+  font-family: var(--sans);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+}
+
+.mode-switch button.on {
+  color: #04121a;
+  font-weight: 700;
+}
+
+.mode-switch-slider {
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(100deg,var(--accent),var(--accent2));
+  transition: left .3s var(--spring),width .3s var(--spring);
+  z-index: 0;
+  box-shadow: 0 0.4rem 1.8rem rgba(53,221,245,.35);
+}
+
+.search-box {
+  display: flex;
+  gap: var(--space-sm);
+  background: var(--surface2);
+  border: 0.1rem solid var(--border);
+  backdrop-filter: blur(1.4rem);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xxs) var(--space-xxs) var(--space-xxs) var(--space-md);
+  margin-bottom: var(--space-md);
+  align-items: center;
+  transition: border-color .25s,box-shadow .25s;
+}
+
+.search-box:focus-within {
+  border-color: rgba(53,221,245,.55);
+  box-shadow: 0 0 0 0.4rem rgba(53,221,245,.08),0 0.8rem 3rem rgba(0,0,0,.15);
+}
+
+.search-box .search-icon {
+  color: var(--muted);
+  display: flex;
+}
+
+.search-box input {
+  flex: 1;
+  background: none;
+  border: 0;
+  outline: 0;
+  color: var(--text);
+  font-size: var(--font-md);
+  font-family: var(--sans);
+  min-width: 0;
+  height: 4.2rem;
+}
+
+.search-box input.mono {
+  font-family: var(--mono);
+  font-size: var(--font-md);
+}
+
+.search-button {
+  background: linear-gradient(120deg,var(--accent),var(--accent2));
+  border: 0;
+  color: #fff;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  height: 4.2rem;
+  padding: 0 var(--space-md);
+  flex-shrink: 0;
+  cursor: pointer;
+  font-size: var(--font-sm);
+  font-family: var(--sans);
+  transition: transform .15s var(--spring),box-shadow .2s;
+  box-shadow: 0 0.4rem 1.6rem rgba(53,221,245,.3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  white-space: nowrap;
+}
+
+.search-button:active {
+  transform: scale(.94);
+}
+
+.filter-card {
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.filter-card h3 {
+  margin-bottom: var(--space-md);
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md) var(--space-sm);
+}
+
+.field-cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.field-cell label {
+  font-size: var(--font-xxs);
+  text-transform: uppercase;
+  letter-spacing: 0.12rem;
+  color: var(--muted);
+  padding-left: var(--space-xxs);
+}
+
+.field-cell .chip {
+  justify-content: center;
+  border-radius: var(--radius-md);
+  height: 4.4rem;
+  padding: 0 var(--space-sm);
+  font-size: var(--font-sm);
+}
+
+.scope {
+  margin-bottom: var(--space-md);
+}
+
+.scope .scope-label {
+  font-size: var(--font-xxs);
+  text-transform: uppercase;
+  letter-spacing: 0.12rem;
+  color: var(--muted);
+  margin-bottom: var(--space-xxs);
+}
+
+.overview-stats {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.stat-card {
+  flex: 1;
+  background: rgba(53,221,245,.05);
+  border: 0.1rem solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  text-align: center;
+}
+
+.stat-card b {
+  font-size: var(--font-lg);
+  display: block;
+  background: linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.stat-card span {
+  font-size: var(--font-xxs);
+  line-height: 1.4;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}

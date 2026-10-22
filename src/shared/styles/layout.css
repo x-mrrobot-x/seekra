@@ -1,0 +1,236 @@
+.aurora {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.aurora::before, .aurora::after {
+  content: '';
+  position: absolute;
+  width: 60vmax;
+  height: 60vmax;
+  border-radius: 50%;
+  filter: blur(12rem);
+  opacity: var(--aurora);
+  animation: drift 26s ease-in-out infinite alternate;
+}
+
+.aurora::before {
+  background: #0e7490;
+  top: -25vmax;
+  left: -15vmax;
+}
+
+.aurora::after {
+  background: #5b3df0;
+  bottom: -30vmax;
+  right: -15vmax;
+  animation-delay: -13s;
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: var(--grain);
+  background-image: radial-gradient(rgba(255,255,255,.028) 0.1rem,transparent 0.1rem);
+  background-size: 0.3rem 0.3rem;
+}
+
+.phone {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 52rem;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-lg) var(--space-lg) var(--space-md);
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.logo .mark {
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg,var(--accent),var(--accent2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0.4rem 1.8rem rgba(53,221,245,.35);
+}
+
+.logo .mark svg {
+  width: var(--icon-md);
+  height: var(--icon-md);
+  color: #04121a;
+}
+
+.logo b {
+  font-size: var(--font-xl);
+  letter-spacing: 0.3rem;
+  font-weight: 700;
+}
+
+.logo b i {
+  font-style: normal;
+  background: linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+main {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.view {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  padding: var(--space-xxs) var(--space-lg) var(--space-lg);
+  opacity: 0;
+  transform: translateY(1.4rem) scale(.985);
+  pointer-events: none;
+  transition: opacity .28s var(--ease),transform .28s var(--ease);
+}
+
+.view.on {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.view::-webkit-scrollbar {
+  width: 0;
+}
+
+.section-label {
+  font-size: var(--font-xxs);
+  text-transform: uppercase;
+  letter-spacing: 0.16rem;
+  color: var(--muted);
+  margin: var(--space-lg) var(--space-xxs) var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 0.1rem;
+  background: linear-gradient(90deg,var(--border),transparent);
+}
+
+.view-fixed {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.view-fixed > :not(.scroll-list) {
+  flex-shrink: 0;
+}
+
+.scroll-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.scroll-list > * {
+  flex-shrink: 0;
+}
+
+.scroll-list::-webkit-scrollbar {
+  width: 0;
+}
+
+.view-fixed .back-link {
+  align-self: flex-start;
+}
+
+nav {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-around;
+  background: var(--bg);
+  backdrop-filter: blur(2rem);
+  border-top: 0.1rem solid var(--border);
+  padding: var(--space-xs) var(--space-sm) calc(var(--space-sm) + env(safe-area-inset-bottom));
+  position: relative;
+  z-index: 5;
+  transition: background .35s;
+}
+
+nav button {
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font-size: var(--font-xxs);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xxs);
+  font-family: var(--sans);
+  transition: color .2s;
+  padding: var(--space-xxs) var(--space-sm);
+  position: relative;
+}
+
+nav button .nav-icon {
+  display: flex;
+  transition: transform .25s var(--spring);
+  opacity: .6;
+}
+
+nav button .nav-icon svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+nav button.on {
+  color: var(--accent);
+}
+
+nav button.on .nav-icon {
+  transform: translateY(-0.2rem);
+  opacity: 1;
+}
+
+nav button.on .nav-icon svg {
+  filter: drop-shadow(0 0 0.8rem rgba(53,221,245,.7));
+}
+
+nav .nav-bar {
+  position: absolute;
+  top: 0;
+  height: 0.3rem;
+  border-radius: 0 0 var(--radius-pill) var(--radius-pill);
+  background: linear-gradient(90deg,var(--accent),var(--accent2));
+  transition: left .32s var(--spring),width .32s var(--spring);
+  box-shadow: 0 0.2rem 1.2rem rgba(53,221,245,.5);
+}
+
+.section-label-first {
+  margin-top: var(--space-xs);
+}

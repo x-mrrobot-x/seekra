@@ -1,0 +1,23 @@
+.hidden {
+  display: none!important;
+}
+
+.icon-xs {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+}
+
+.icon-sm {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
+.icon-md {
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+.icon-lg {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+}

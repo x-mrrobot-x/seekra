@@ -1,0 +1,55 @@
+.results-status {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  font-size: var(--font-sm);
+  color: var(--muted);
+  margin-bottom: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.results-status b {
+  color: var(--text);
+}
+
+.status-ok {
+  color: var(--ok);
+}
+
+.status-running {
+  color: var(--accent);
+}
+
+.progress {
+  height: 0.3rem;
+  border-radius: var(--radius-pill);
+  background: rgba(53,221,245,.12);
+  overflow: hidden;
+  margin-bottom: var(--space-sm);
+}
+
+.progress i {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg,var(--accent),var(--accent2));
+  transition: width .5s var(--ease);
+}
+
+.progress.run i {
+  width: 65%;
+  animation: progress-move 1.2s var(--ease) infinite;
+}
+
+.results-chips {
+  margin: 0 0 var(--space-sm);
+}
+
+.results-chips:empty {
+  display: none;
+}
+
+.status-error {
+  color: var(--err);
+}

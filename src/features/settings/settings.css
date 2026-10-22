@@ -1,0 +1,20 @@
+.key-wrap {
+  position: relative;
+}
+
+.key-wrap .key-toggle {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--muted);
+  display: flex;
+  background: none;
+  border: 0;
+}
+
+.key-wrap .key-toggle svg {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}

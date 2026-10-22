@@ -1,0 +1,239 @@
+{
+  "nav": {
+    "search": "Buscar",
+    "explorer": "Explorar",
+    "saved": "Guardadas",
+    "settings": "Ajustes"
+  },
+  "category": {
+    "img": "imagen",
+    "vid": "vídeo",
+    "aud": "audio",
+    "doc": "documento",
+    "code": "código",
+    "dir": "carpeta"
+  },
+  "search": {
+    "mode": {
+      "simple": "Simple",
+      "regex": "Regex",
+      "ai": "IA"
+    },
+    "placeholder": {
+      "simple": "Nombre o extensión…",
+      "regex": "Ej.: IMG_[0-9]{8}\\.png",
+      "ai": "Ej.: PDF mayores de 5 MB…"
+    },
+    "search": "Buscar",
+    "generate": "Generar",
+    "scope": {
+      "label": "Buscar en",
+      "all": "Todos los volúmenes",
+      "toast": "Búsqueda limitada a '{{path}}'"
+    },
+    "filters": {
+      "title": "Filtros",
+      "type": "Tipo de archivo",
+      "size": "Tamaño mínimo",
+      "period": "Período",
+      "recursive": "Recursividad",
+      "all": "Todos",
+      "any": "Cualquiera",
+      "size1": "Más de 1 MB",
+      "size100": "Más de 100 MB",
+      "size500": "Más de 500 MB",
+      "days7": "Últimos 7 días",
+      "days30": "Últimos 30 días",
+      "includeSubfolders": "Incluir subcarpetas"
+    },
+    "recents": "Recientes",
+    "overview": {
+      "title": "Resumen",
+      "volumes": "volúmenes activos",
+      "free": "libres",
+      "lastSearch": "última búsqueda"
+    }
+  },
+  "chips": {
+    "type": "tipo: '{{value}}'",
+    "size": "tamaño ≥ '{{value}}' MB",
+    "days": "últimos '{{days}}' días",
+    "folder": "carpeta: '{{name}}'",
+    "nonRecursive": "sin subcarpetas",
+    "ai": "comando IA · solo lectura"
+  },
+  "ai": {
+    "prompt": {
+      "title": "Describe lo que quieres encontrar",
+      "description": "Escribe en lenguaje natural: tipo, tamaño, fecha, carpeta. La IA genera el comando y <b>NEXUS lo valida antes de ejecutar</b>. Nada se ejecuta sin tu confirmación."
+    },
+    "examples": {
+      "pdf": {
+        "label": "“PDF mayores de 5 MB en Download”",
+        "prompt": "PDF mayores de 5 MB en la carpeta Download y subcarpetas"
+      },
+      "video": {
+        "label": "“vídeos de más de 500 MB”",
+        "prompt": "Vídeos de más de 500 MB"
+      },
+      "png": {
+        "label": "“PNG de los últimos 7 días”",
+        "prompt": "Imágenes PNG creadas en los últimos 7 días"
+      }
+    },
+    "panel": {
+      "title": "Comando generado — revísalo antes de ejecutar",
+      "generating": "Generando comando…",
+      "edit": "Editar",
+      "copy": "Copiar",
+      "run": "Ejecutar vía Tasker"
+    },
+    "loading": {
+      "title": "Consultando Gemini…",
+      "subtitle": "Interpretando la intención y generando el comando"
+    },
+    "chips": {
+      "extensions": "extensiones: '{{value}}'",
+      "minimum": "mínimo: '{{value}}'",
+      "days": "últimos '{{days}}' días",
+      "roots": "raíces: '{{value}}'"
+    },
+    "validated": "validado · solo lectura",
+    "validatedLocal": "validado · demo local",
+    "errors": {
+      "noKey": "⚠️ No hay ninguna clave de Gemini configurada.",
+      "noKeyHint": "Registra tu clave en <b>Ajustes → IA — Gemini</b> para generar comandos con IA.",
+      "rejected": "⛔ Comando rechazado por la validación de NEXUS: <b>'{{reason}}'</b>.",
+      "rejectedHint": "La IA interpreta. NEXUS valida. Nada se ejecuta sin pasar por la allowlist.",
+      "failed": "⚠️ Error de comunicación con Gemini: <b>'{{message}}'</b>",
+      "failedHint": "Revisa la clave en Ajustes, tu conexión, o usa el intérprete local.",
+      "useLocal": "Usar intérprete local (demo, sin API)",
+      "notUnderstood": "⚠️ No lo entendí. Reformula indicando tipo, tamaño o carpeta.",
+      "localRejected": "⛔ Rechazado: '{{reason}}'"
+    },
+    "reason": {
+      "format": "formato fuera del patrón find … -print",
+      "forbidden": "contiene una operación prohibida (no es solo lectura)"
+    },
+    "describeFirst": "Describe lo que quieres encontrar",
+    "copied": "Comando copiado",
+    "copyFailed": "No se pudo copiar",
+    "editing": "Modo Regex activado para edición",
+    "local": {
+      "pdf": "Busca PDF en Download y subcarpetas.",
+      "pdfSize": "Busca PDF mayores de '{{mb}}' MB en Download y subcarpetas.",
+      "video": "Busca vídeos de más de '{{mb}}' MB en todos los volúmenes autorizados.",
+      "png": "Busca imágenes PNG modificadas en los últimos 7 días.",
+      "suffix": "(intérprete local — demo)",
+      "chipPdf": "extensión: pdf",
+      "chipRecursive": "recursivo: sí",
+      "chipVideo": "tipo: vídeo",
+      "chipAllRoots": "raíces: todos los volúmenes",
+      "chipPng": "extensión: png",
+      "chipWeek": "modificados: últimos 7 días"
+    }
+  },
+  "gemini": {
+    "badRequest": " — clave inválida o solicitud mal formada",
+    "rateLimit": " — límite de solicitudes excedido"
+  },
+  "results": {
+    "back": "Nueva búsqueda",
+    "one": "resultado",
+    "other": "resultados",
+    "runningTasker": "ejecutando vía Tasker…",
+    "runningWeb": "ejecutando (demo web)…",
+    "done": "✓ completado",
+    "noMatch": "✓ sin coincidencias",
+    "error": "✕ error",
+    "empty": "Sin resultados.",
+    "emptyHint": "Ajusta los filtros, incluye subcarpetas o verifica que la raíz esté autorizada para el shell de Tasker.",
+    "regexInvalid": "Regex inválida — '{{message}}'",
+    "regexHint": "Dialecto admitido: ERE (POSIX extendido), como en el shell de Tasker.",
+    "failure": "Error de ejecución — '{{message}}'"
+  },
+  "explorer": {
+    "internal": "Memoria interna",
+    "sd": "Tarjeta SD",
+    "free": "'{{size}}' libres",
+    "access": "Acceso OK",
+    "searchHere": "Buscar en esta carpeta",
+    "favorite": "Favorita",
+    "favoriteAdded": "Carpeta añadida a favoritos",
+    "folders": "Carpetas · '{{count}}'",
+    "files": "Archivos · '{{count}}'",
+    "empty": "Carpeta vacía o sin acceso desde el shell.",
+    "emptyHint": "Autorización de la interfaz ≠ acceso del proceso Tasker. Verifica la raíz en Ajustes."
+  },
+  "saved": {
+    "queriesTitle": "Consultas guardadas",
+    "foldersTitle": "Carpetas favoritas",
+    "queries": {
+      "backups": {
+        "name": "copias de seguridad recientes",
+        "desc": "contiene \"backup\" · todos los volúmenes"
+      },
+      "photos": {
+        "name": "fotos con patrón de fecha",
+        "desc": "IMG_[0-9]{8}.* · ERE · DCIM"
+      }
+    },
+    "folders": {
+      "download": "Download",
+      "camera": "Cámara"
+    }
+  },
+  "settings": {
+    "preferences": "Preferencias",
+    "themeTitle": "Tema",
+    "languageTitle": "Idioma",
+    "theme": {
+      "dark": "Oscuro",
+      "light": "Claro"
+    },
+    "aiTitle": "IA — Gemini",
+    "apiKey": "Clave de API",
+    "models": {
+      "fast": "rápido, recomendado",
+      "capable": "más capaz (sin plan gratuito)",
+      "previous": "generación anterior",
+      "cheap": "más barato",
+      "legacy": "heredado"
+    },
+    "save": "Guardar",
+    "test": "Probar",
+    "testing": "Probando…",
+    "privacy": "<b>Privacidad:</b> solo tu descripción en texto se envía a Gemini para generar el comando. Ningún contenido de archivos sale del dispositivo.",
+    "saved": "Configuración guardada ('{{model}}').",
+    "keySaved": "Clave de Gemini guardada",
+    "noKey": "Introduce y guarda la clave antes de probar.",
+    "testOk": "Conexión OK con '{{model}}' ✓",
+    "testToast": "Conexión con Gemini OK",
+    "testFailed": "Error en la prueba: '{{message}}'. Verifica la clave y el modelo.",
+    "storageTitle": "Almacenamiento",
+    "roots": "Raíces autorizadas",
+    "environmentTitle": "Entorno",
+    "execution": "Ejecución",
+    "activeEnvironment": "Entorno activo",
+    "ping": "Probar ejecución",
+    "pingOk": "'{{env}}' respondió en '{{ms}}' ms",
+    "pingFailed": "Error: '{{message}}'",
+    "volumesFailed": "Error al leer volúmenes: '{{message}}'"
+  },
+  "sheet": {
+    "path": "Ruta",
+    "size": "Tamaño",
+    "modified": "Modificado",
+    "type": "Tipo",
+    "hash": "Hash SHA-256",
+    "compute": "calcular",
+    "computing": "calculando…",
+    "retry": "toca para reintentar",
+    "open": "Abrir con",
+    "share": "Compartir",
+    "copyPath": "Ruta",
+    "opening": "Abriendo con app externa…",
+    "sharing": "Compartiendo…",
+    "copied": "Ruta copiada"
+  }
+}

@@ -1,0 +1,239 @@
+{
+  "nav": {
+    "search": "Search",
+    "explorer": "Explore",
+    "saved": "Saved",
+    "settings": "Settings"
+  },
+  "category": {
+    "img": "image",
+    "vid": "video",
+    "aud": "audio",
+    "doc": "document",
+    "code": "code",
+    "dir": "folder"
+  },
+  "search": {
+    "mode": {
+      "simple": "Simple",
+      "regex": "Regex",
+      "ai": "AI"
+    },
+    "placeholder": {
+      "simple": "Name or extension…",
+      "regex": "E.g.: IMG_[0-9]{8}\\.png",
+      "ai": "E.g.: PDFs larger than 5 MB…"
+    },
+    "search": "Search",
+    "generate": "Generate",
+    "scope": {
+      "label": "Search in",
+      "all": "All volumes",
+      "toast": "Search limited to '{{path}}'"
+    },
+    "filters": {
+      "title": "Filters",
+      "type": "File type",
+      "size": "Minimum size",
+      "period": "Period",
+      "recursive": "Recursion",
+      "all": "All",
+      "any": "Any",
+      "size1": "Over 1 MB",
+      "size100": "Over 100 MB",
+      "size500": "Over 500 MB",
+      "days7": "Last 7 days",
+      "days30": "Last 30 days",
+      "includeSubfolders": "Include subfolders"
+    },
+    "recents": "Recent",
+    "overview": {
+      "title": "Overview",
+      "volumes": "active volumes",
+      "free": "free",
+      "lastSearch": "last search"
+    }
+  },
+  "chips": {
+    "type": "type: '{{value}}'",
+    "size": "size ≥ '{{value}}' MB",
+    "days": "last '{{days}}' days",
+    "folder": "folder: '{{name}}'",
+    "nonRecursive": "no subfolders",
+    "ai": "AI command · read-only"
+  },
+  "ai": {
+    "prompt": {
+      "title": "Describe what you want to find",
+      "description": "Write in natural language — type, size, date, folder. The AI generates the command and <b>NEXUS validates it before running</b>. Nothing runs without your confirmation."
+    },
+    "examples": {
+      "pdf": {
+        "label": "“PDFs larger than 5 MB in Download”",
+        "prompt": "PDFs larger than 5 MB in the Download folder and subfolders"
+      },
+      "video": {
+        "label": "“videos over 500 MB”",
+        "prompt": "Videos over 500 MB"
+      },
+      "png": {
+        "label": "“PNGs from the last 7 days”",
+        "prompt": "PNG images created in the last 7 days"
+      }
+    },
+    "panel": {
+      "title": "Generated command — review before running",
+      "generating": "Generating command…",
+      "edit": "Edit",
+      "copy": "Copy",
+      "run": "Run via Tasker"
+    },
+    "loading": {
+      "title": "Asking Gemini…",
+      "subtitle": "Interpreting intent and generating command"
+    },
+    "chips": {
+      "extensions": "extensions: '{{value}}'",
+      "minimum": "minimum: '{{value}}'",
+      "days": "last '{{days}}' days",
+      "roots": "roots: '{{value}}'"
+    },
+    "validated": "validated · read-only",
+    "validatedLocal": "validated · local demo",
+    "errors": {
+      "noKey": "⚠️ No Gemini key configured.",
+      "noKeyHint": "Add your key in <b>Settings → AI — Gemini</b> to generate commands with AI.",
+      "rejected": "⛔ Command rejected by NEXUS validation: <b>'{{reason}}'</b>.",
+      "rejectedHint": "The AI interprets. NEXUS validates. Nothing runs without passing the allowlist.",
+      "failed": "⚠️ Failed to reach Gemini: <b>'{{message}}'</b>",
+      "failedHint": "Check the key in Settings, your connection, or use the local interpreter.",
+      "useLocal": "Use local interpreter (demo, no API)",
+      "notUnderstood": "⚠️ I did not understand. Rephrase with a type, size or folder.",
+      "localRejected": "⛔ Rejected: '{{reason}}'"
+    },
+    "reason": {
+      "format": "format outside the find … -print pattern",
+      "forbidden": "contains a forbidden operation (not read-only)"
+    },
+    "describeFirst": "Describe what you want to find",
+    "copied": "Command copied",
+    "copyFailed": "Could not copy",
+    "editing": "Regex mode enabled for editing",
+    "local": {
+      "pdf": "Searches PDFs in Download and subfolders.",
+      "pdfSize": "Searches PDFs larger than '{{mb}}' MB in Download and subfolders.",
+      "video": "Searches videos over '{{mb}}' MB in all authorized volumes.",
+      "png": "Searches PNG images modified in the last 7 days.",
+      "suffix": "(local interpreter — demo)",
+      "chipPdf": "extension: pdf",
+      "chipRecursive": "recursive: yes",
+      "chipVideo": "type: video",
+      "chipAllRoots": "roots: all volumes",
+      "chipPng": "extension: png",
+      "chipWeek": "modified: last 7 days"
+    }
+  },
+  "gemini": {
+    "badRequest": " — invalid key or malformed request",
+    "rateLimit": " — rate limit exceeded"
+  },
+  "results": {
+    "back": "New search",
+    "one": "result",
+    "other": "results",
+    "runningTasker": "running via Tasker…",
+    "runningWeb": "running (web demo)…",
+    "done": "✓ done",
+    "noMatch": "✓ no matches",
+    "error": "✕ error",
+    "empty": "No results.",
+    "emptyHint": "Adjust the filters, include subfolders, or check that the root is authorized for the Tasker shell.",
+    "regexInvalid": "Invalid regex — '{{message}}'",
+    "regexHint": "Supported dialect: ERE (POSIX extended), as in the Tasker shell.",
+    "failure": "Execution failed — '{{message}}'"
+  },
+  "explorer": {
+    "internal": "Internal storage",
+    "sd": "SD card",
+    "free": "'{{size}}' free",
+    "access": "Access OK",
+    "searchHere": "Search this folder",
+    "favorite": "Favorite",
+    "favoriteAdded": "Folder added to favorites",
+    "folders": "Folders · '{{count}}'",
+    "files": "Files · '{{count}}'",
+    "empty": "Empty folder or no shell access.",
+    "emptyHint": "Interface authorization ≠ Tasker process access. Check the root in Settings."
+  },
+  "saved": {
+    "queriesTitle": "Saved queries",
+    "foldersTitle": "Favorite folders",
+    "queries": {
+      "backups": {
+        "name": "recent backups",
+        "desc": "contains \"backup\" · all volumes"
+      },
+      "photos": {
+        "name": "photos with date pattern",
+        "desc": "IMG_[0-9]{8}.* · ERE · DCIM"
+      }
+    },
+    "folders": {
+      "download": "Download",
+      "camera": "Camera"
+    }
+  },
+  "settings": {
+    "preferences": "Preferences",
+    "themeTitle": "Theme",
+    "languageTitle": "Language",
+    "theme": {
+      "dark": "Dark",
+      "light": "Light"
+    },
+    "aiTitle": "AI — Gemini",
+    "apiKey": "API key",
+    "models": {
+      "fast": "fast, recommended",
+      "capable": "most capable (no free tier)",
+      "previous": "previous generation",
+      "cheap": "cheaper",
+      "legacy": "legacy"
+    },
+    "save": "Save",
+    "test": "Test",
+    "testing": "Testing…",
+    "privacy": "<b>Privacy:</b> only your text description is sent to Gemini to generate the command. No file content leaves the device.",
+    "saved": "Settings saved ('{{model}}').",
+    "keySaved": "Gemini key saved",
+    "noKey": "Enter and save the key before testing.",
+    "testOk": "Connection OK with '{{model}}' ✓",
+    "testToast": "Gemini connection OK",
+    "testFailed": "Test failed: '{{message}}'. Check the key and model.",
+    "storageTitle": "Storage",
+    "roots": "Authorized roots",
+    "environmentTitle": "Environment",
+    "execution": "Execution",
+    "activeEnvironment": "Active environment",
+    "ping": "Test execution",
+    "pingOk": "'{{env}}' answered in '{{ms}}' ms",
+    "pingFailed": "Failed: '{{message}}'",
+    "volumesFailed": "Failed to read volumes: '{{message}}'"
+  },
+  "sheet": {
+    "path": "Path",
+    "size": "Size",
+    "modified": "Modified",
+    "type": "Type",
+    "hash": "SHA-256 hash",
+    "compute": "compute",
+    "computing": "computing…",
+    "retry": "tap to try again",
+    "open": "Open with",
+    "share": "Share",
+    "copyPath": "Path",
+    "opening": "Opening with external app…",
+    "sharing": "Sharing…",
+    "copied": "Path copied"
+  }
+}
