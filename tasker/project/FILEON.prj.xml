@@ -1,0 +1,532 @@
+<TaskerData sr="" dvi="1" tv="6.7.7-rc">
+	<dmetric>1080.0,2307.0</dmetric>
+	<Project sr="proj0" ve="2">
+		<cdate>1792483228313</cdate>
+		<id>328493fb-b771-443e-ac21-20f194394e5e</id>
+		<name>FILEON</name>
+		<scenes>FO - FILEON</scenes>
+		<tids>2036,2037</tids>
+	</Project>
+	<Scene sr="sceneFO - FILEON">
+		<cdate>1792483487911</cdate>
+		<edate>1792713720672</edate>
+		<heightLand>-1</heightLand>
+		<heightPort>-1</heightPort>
+		<lj>H4sIAAAAAAAA/4VQsWoDMQz9lWDodh2yZktKAoXSDIF2KBl0tnInKltB9jUk4f69ctscpUsn897Te3ry1alIcYurK+cjuoV7EB5ico2jMKG5wV6ULpIK8JKpSxFTqbo9qCZ/oBbyJqpC6vCvHCXQgVCzW7xNqzbEvKMLurGZuBX4905lSMFcXljUyDzoAbzN7Y3riYNi+h30iu0L4elW+gfO/99b8+ym77J3fYlsngAFWsi4TtAy1sCiA5oAzHIyMy69x5xvwrgfG5cgfkVvZ/ezzePTevtc/4wC7s65YFxBrVDHx0/A2965cgEAAA==</lj>
+		<nme>FO - FILEON</nme>
+		<widthLand>-1</widthLand>
+		<widthPort>-1</widthPort>
+	</Scene>
+	<Task sr="task2036">
+		<cdate>1792483239344</cdate>
+		<edate>1792713737202</edate>
+		<id>2036</id>
+		<nme>FO 01 - MAIN</nme>
+		<pri>100</pri>
+		<Action sr="act0" ve="7">
+			<code>417</code>
+			<label>[DEV]</label>
+			<Str sr="arg0" ve="3">/storage/0BF9-13F1/1 - Dev/1 - Projetos/1 - Tasker/Fileon/dist/index.html</Str>
+			<Str sr="arg1" ve="3">%html</Str>
+			<Int sr="arg2" val="1"/>
+		</Action>
+		<Action sr="act1" ve="7">
+			<code>479</code>
+			<Bundle sr="arg0">
+				<Vals sr="val">
+					<net.dinglisch.android.tasker.RELEVANT_VARIABLES>&lt;StringArray sr=""/&gt;</net.dinglisch.android.tasker.RELEVANT_VARIABLES>
+					<net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>[Ljava.lang.String;</net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>
+				</Vals>
+			</Bundle>
+			<Str sr="arg1" ve="3">FO - FILEON</Str>
+			<Str sr="arg10" ve="3"/>
+			<Str sr="arg11" ve="3"/>
+			<Int sr="arg12" val="0"/>
+			<Int sr="arg13" val="0"/>
+			<Int sr="arg14" val="0"/>
+			<Str sr="arg15" ve="3"/>
+			<Int sr="arg16" val="1"/>
+			<Str sr="arg2" ve="3"/>
+			<Str sr="arg3" ve="3">Fullscreen</Str>
+			<Str sr="arg4" ve="3"/>
+			<Str sr="arg5" ve="3"/>
+			<Str sr="arg6" ve="3"/>
+			<Str sr="arg7" ve="3"/>
+			<Int sr="arg8" val="1"/>
+			<Str sr="arg9" ve="3"/>
+		</Action>
+		<Action sr="act2" ve="7">
+			<code>485</code>
+			<on>false</on>
+			<Bundle sr="arg0">
+				<Vals sr="val">
+					<net.dinglisch.android.tasker.RELEVANT_VARIABLES>&lt;StringArray sr=""/&gt;</net.dinglisch.android.tasker.RELEVANT_VARIABLES>
+					<net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>[Ljava.lang.String;</net.dinglisch.android.tasker.RELEVANT_VARIABLES-type>
+				</Vals>
+			</Bundle>
+			<Str sr="arg1" ve="3">NEXUS</Str>
+			<Str sr="arg2" ve="3">WebView1</Str>
+			<Str sr="arg3" ve="3">load_url</Str>
+			<Str sr="arg4" ve="3">url</Str>
+			<Str sr="arg5" ve="3">javascript:(function(){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/eruda';s.onload=function(){eruda.init();};document.head.appendChild(s);})();</Str>
+			<Str sr="arg6" ve="3"/>
+		</Action>
+	</Task>
+	<Task sr="task2037">
+		<cdate>1792483679250</cdate>
+		<edate>1792713745563</edate>
+		<id>2037</id>
+		<nme>FO 02 - EXEC</nme>
+		<pri>100</pri>
+		<rty>2</rty>
+		<Action sr="act0" ve="7">
+			<code>547</code>
+			<label>#0</label>
+			<on>false</on>
+			<Str sr="arg0" ve="3">%time0</Str>
+			<Str sr="arg1" ve="3">%TIMEMS</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+			<Int sr="arg4" val="0"/>
+			<Int sr="arg5" val="3"/>
+			<Int sr="arg6" val="1"/>
+		</Action>
+		<Action sr="act1" ve="7">
+			<code>547</code>
+			<Str sr="arg0" ve="3">%NEXUS_DIR</Str>
+			<Str sr="arg1" ve="3">/storage/0BF9-13F1/1 - Dev/1 - Projetos/1 - Tasker/Fileon/tasker/scripts</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+			<Int sr="arg4" val="0"/>
+			<Int sr="arg5" val="3"/>
+			<Int sr="arg6" val="0"/>
+			<ConditionList sr="if">
+				<Condition sr="c0" ve="3">
+					<lhs>%NEXUS_DIR</lhs>
+					<op>13</op>
+					<rhs></rhs>
+				</Condition>
+			</ConditionList>
+		</Action>
+		<Action sr="act2" ve="7">
+			<code>474</code>
+			<Str sr="arg0" ve="3">import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
+import org.json.JSONObject;
+import android.content.ContentUris;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.util.Base64;
+import android.webkit.MimeTypeMap;
+
+String DIR = tasker.getVariable("NEXUS_DIR");
+String RID = tasker.getVariable("rid");
+String ARGS = tasker.getVariable("args");
+String DATA = DIR + "/data";
+int MAX_LIST = 2000;
+
+String[] res(int code, String out, String err) {
+  return new String[] { String.valueOf(code), out, err };
+}
+
+String[] fail(String msg) {
+  return res(1, "", msg + "\n");
+}
+
+String arg(Map p, String key) {
+  Object v = p.get(key);
+  return v == null ? "" : (String) v;
+}
+
+boolean isNum(String s) {
+  return s.matches("[0-9]+");
+}
+
+int toInt(String s) {
+  return s.length() &gt; 9 ? 999999999 : Integer.parseInt(s);
+}
+
+byte[] readAll(InputStream in) {
+  try {
+    ByteArrayOutputStream o = new ByteArrayOutputStream();
+    byte[] b = new byte[65536];
+    int n = in.read(b);
+    while (n &gt;= 0) {
+      o.write(b, 0, n);
+      n = in.read(b);
+    }
+    return o.toByteArray();
+  } finally {
+    in.close();
+  }
+}
+
+Map parse(String[] lines) {
+  Map p = new HashMap();
+  for (int i = 1; i &lt; lines.length; i++) {
+    String line = lines[i];
+    if (line.length() == 0) continue;
+    int eq = line.indexOf("=");
+    if (eq &lt; 0) return null;
+    String k = line.substring(0, eq);
+    if (!k.matches("[a-z0-9]+")) return null;
+    String v = line.substring(eq + 1);
+    Object old = p.get(k);
+    p.put(k, old == null ? v : old + "\n" + v);
+  }
+  return p;
+}
+
+void addRoot(List r, String path) {
+  if (path == null || path.length() == 0 || r.contains(path)) return;
+  if (new File(path).isDirectory()) r.add(path);
+}
+
+List roots() {
+  List r = new ArrayList();
+  addRoot(r, "/storage/emulated/0");
+  try {
+    Object sm = context.getSystemService("storage");
+    List vs = sm.getStorageVolumes();
+    for (int i = 0; i &lt; vs.size(); i++) {
+      try {
+        Object v = vs.get(i);
+        String st = v.getState();
+        if (!"mounted".equals(st) &amp;&amp; !"mounted_ro".equals(st)) continue;
+        File d = v.getDirectory();
+        if (d != null) addRoot(r, d.getPath());
+      } catch (Throwable t) {
+      }
+    }
+  } catch (Throwable t) {
+  }
+  try {
+    File[] ds = context.getExternalFilesDirs(null);
+    for (int i = 0; i &lt; ds.length; i++) {
+      if (ds[i] == null) continue;
+      String s = ds[i].getPath();
+      int k = s.indexOf("/Android/");
+      if (k &gt; 0) addRoot(r, s.substring(0, k));
+    }
+  } catch (Throwable t) {
+  }
+  String[] names = new File("/storage").list();
+  if (names != null) {
+    Arrays.sort(names);
+    for (int i = 0; i &lt; names.length; i++) {
+      if (names[i].matches(".{4}-.{4}|[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}")) addRoot(r, "/storage/" + names[i]);
+    }
+  }
+  return r;
+}
+
+boolean inRoots(List roots, String path) {
+  if (path.length() == 0 || path.equals("..") || path.startsWith("../") || path.endsWith("/..") || path.indexOf("/../") &gt;= 0) return false;
+  for (int i = 0; i &lt; roots.size(); i++) {
+    String r = (String) roots.get(i);
+    if (path.equals(r) || path.startsWith(r + "/")) return true;
+  }
+  return false;
+}
+
+File dataFile(Map p) {
+  String n = arg(p, "path");
+  if (n.length() == 0 || n.indexOf("/") &gt;= 0 || n.equals(".") || n.equals("..")) return null;
+  return new File(DATA, n);
+}
+
+String mimeOf(String name) {
+  int dot = name.lastIndexOf(".");
+  String ext = dot &lt; 0 ? "" : name.substring(dot + 1).toLowerCase(Locale.ENGLISH);
+  if (ext.matches("txt|md|csv|sh|json|xml|html|vcf")) return "text/plain";
+  String m = ext.length() == 0 ? null : MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext);
+  return m == null ? "*/*" : m;
+}
+
+void allowFileUri() {
+  try {
+    Class bc = Class.forName("android.os.StrictMode$VmPolicy$Builder");
+    Object builder = bc.newInstance();
+    Object policy = bc.getMethod("build", new Class[0]).invoke(builder, new Object[0]);
+    Class pc = Class.forName("android.os.StrictMode$VmPolicy");
+    Class sc = Class.forName("android.os.StrictMode");
+    sc.getMethod("setVmPolicy", new Class[] { pc }).invoke(null, new Object[] { policy });
+  } catch (Throwable t) {
+  }
+}
+
+Uri mediaUri(File f, String mime) {
+  String col = "file";
+  if (mime.startsWith("image/")) col = "images/media";
+  else if (mime.startsWith("video/")) col = "video/media";
+  else if (mime.startsWith("audio/")) col = "audio/media";
+  Cursor c = null;
+  try {
+    c = context.getContentResolver().query(Uri.parse("content://media/external/file"), new String[] { "_id" }, "_data=?", new String[] { f.getPath() }, null);
+    if (c != null &amp;&amp; c.moveToFirst()) {
+      return ContentUris.withAppendedId(Uri.parse("content://media/external/" + col), c.getLong(0));
+    }
+  } catch (Throwable t) {
+  } finally {
+    if (c != null) c.close();
+  }
+  return null;
+}
+
+Uri uriFor(File f, String mime) {
+  Uri u = mediaUri(f, mime);
+  if (u != null) return u;
+  allowFileUri();
+  return Uri.fromFile(f);
+}
+
+String[] opVolumes(List rs) {
+  StringBuilder sb = new StringBuilder();
+  for (int i = 0; i &lt; rs.size(); i++) {
+    String r = (String) rs.get(i);
+    File f = new File(r);
+    sb.append(r).append("|").append(f.getUsableSpace()).append("|").append(f.getTotalSpace()).append("\n");
+  }
+  return res(0, sb.toString(), "");
+}
+
+String[] opList(Map p, List rs) {
+  String folder = arg(p, "dir");
+  if (!inRoots(rs, folder)) return fail("pasta fora das raízes autorizadas");
+  File d = new File(folder);
+  if (!d.isDirectory()) return fail("pasta inexistente");
+  String m = arg(p, "max");
+  if (m.length() == 0) m = String.valueOf(MAX_LIST);
+  if (!isNum(m)) return fail("parâmetro numérico inválido");
+  int max = toInt(m);
+  File[] files = d.listFiles();
+  if (files == null) return fail("pasta sem permissão de leitura");
+  TreeMap sorted = new TreeMap();
+  for (int i = 0; i &lt; files.length; i++) {
+    File f = files[i];
+    String path = f.getPath();
+    long mt = f.lastModified() / 1000;
+    if (f.isDirectory()) {
+      sorted.put("d" + path, "d|0|" + mt + "|" + path);
+    } else {
+      sorted.put("f" + path, "f|" + f.length() + "|" + mt + "|" + path);
+    }
+  }
+  StringBuilder sb = new StringBuilder();
+  Iterator it = sorted.values().iterator();
+  int count = 0;
+  while (it.hasNext() &amp;&amp; count &lt; max) {
+    sb.append((String) it.next()).append("\n");
+    count++;
+  }
+  return res(0, sb.toString(), "");
+}
+
+String[] opHash(Map p, List rs) {
+  String path = arg(p, "path");
+  if (!inRoots(rs, path)) return fail("caminho fora das raízes autorizadas");
+  File f = new File(path);
+  if (!f.isFile()) return fail("arquivo inexistente");
+  MessageDigest md = MessageDigest.getInstance("SHA-256");
+  FileInputStream in = new FileInputStream(f);
+  try {
+    byte[] b = new byte[1048576];
+    int n = in.read(b);
+    while (n &gt;= 0) {
+      md.update(b, 0, n);
+      n = in.read(b);
+    }
+  } finally {
+    in.close();
+  }
+  byte[] h = md.digest();
+  StringBuilder sb = new StringBuilder();
+  for (int i = 0; i &lt; h.length; i++) {
+    sb.append(Integer.toHexString((h[i] &amp; 255) | 256).substring(1));
+  }
+  return res(0, sb.toString() + "\n", "");
+}
+
+String[] opRead(Map p) {
+  File f = dataFile(p);
+  if (f == null) return fail("nome de arquivo inválido");
+  if (!f.isFile()) return fail("arquivo inexistente");
+  return res(0, new String(readAll(new FileInputStream(f)), "UTF-8"), "");
+}
+
+String[] opWrite(Map p) {
+  File f = dataFile(p);
+  if (f == null) return fail("nome de arquivo inválido");
+  File d = new File(DATA);
+  if (!d.isDirectory() &amp;&amp; !d.mkdirs()) return fail("falha ao criar diretório de dados");
+  File t = new File(f.getPath() + ".tmp");
+  FileOutputStream o = new FileOutputStream(t);
+  try {
+    o.write(arg(p, "data").getBytes("UTF-8"));
+  } finally {
+    o.close();
+  }
+  if (!t.renameTo(f)) {
+    t.delete();
+    return fail("falha ao gravar");
+  }
+  return res(0, "", "");
+}
+
+String[] opOpen(Map p, List rs) {
+  String path = arg(p, "path");
+  if (!inRoots(rs, path)) return fail("caminho fora das raízes autorizadas");
+  File f = new File(path);
+  if (!f.isFile()) return fail("arquivo inexistente");
+  String mime = mimeOf(f.getName());
+  try {
+    Intent intent = new Intent("android.intent.action.VIEW");
+    intent.setDataAndType(uriFor(f, mime), mime);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    context.startActivity(intent);
+  } catch (Throwable t) {
+    return fail("falha ao abrir");
+  }
+  return res(0, "", "");
+}
+
+String[] opShare(Map p, List rs) {
+  String path = arg(p, "path");
+  if (!inRoots(rs, path)) return fail("caminho fora das raízes autorizadas");
+  File f = new File(path);
+  if (!f.isFile()) return fail("arquivo inexistente");
+  String mime = mimeOf(f.getName());
+  try {
+    Intent intent = new Intent("android.intent.action.SEND");
+    intent.setType(mime);
+    intent.putExtra("android.intent.extra.STREAM", uriFor(f, mime));
+    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    Intent chooser = Intent.createChooser(intent, null);
+    chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    context.startActivity(chooser);
+  } catch (Throwable t) {
+    return fail("falha ao compartilhar");
+  }
+  return res(0, "", "");
+}
+
+String[] runShell(List rs) {
+  File input = new File(context.getFilesDir(), ".in." + RID);
+  FileOutputStream o = new FileOutputStream(input);
+  try {
+    o.write(ARGS.getBytes("UTF-8"));
+  } finally {
+    o.close();
+  }
+  try {
+    StringBuilder env = new StringBuilder();
+    for (int i = 0; i &lt; rs.size(); i++) {
+      if (i &gt; 0) env.append("\n");
+      env.append((String) rs.get(i));
+    }
+    ProcessBuilder pb = new ProcessBuilder(new String[] { "sh", DIR + "/nexus.sh", input.getPath() });
+    pb.directory(new File(DIR));
+    pb.environment().put("NEXUS_ROOTS", env.toString());
+    Process pr = pb.start();
+    pr.getOutputStream().close();
+    String out = new String(readAll(pr.getInputStream()), "UTF-8");
+    String err = new String(readAll(pr.getErrorStream()), "UTF-8");
+    return res(pr.waitFor(), out, err);
+  } finally {
+    input.delete();
+  }
+}
+
+String[] dispatch() {
+  if (RID == null || !RID.matches("[a-z0-9]+")) return fail("id inválido");
+  String[] lines = ARGS == null ? new String[0] : ARGS.split("\n");
+  String op = lines.length &gt; 0 ? lines[0] : "";
+  if (op.length() == 0) return fail("operação ausente");
+  if (op.equals("search") || op.equals("ia")) return runShell(roots());
+  Map p = parse(lines);
+  if (p == null) return fail("argumento inválido");
+  if (op.equals("ping")) return res(0, "ok\n", "");
+  if (op.equals("read")) return opRead(p);
+  if (op.equals("write")) return opWrite(p);
+  List rs = roots();
+  if (op.equals("volumes")) return opVolumes(rs);
+  if (op.equals("list")) return opList(p, rs);
+  if (op.equals("hash")) return opHash(p, rs);
+  if (op.equals("open")) return opOpen(p, rs);
+  if (op.equals("share")) return opShare(p, rs);
+  return fail("operação desconhecida: " + op);
+}
+
+String[] result;
+try {
+  result = dispatch();
+} catch (Throwable t) {
+  result = fail("" + t);
+}
+
+JSONObject env = new JSONObject();
+env.put("id", RID);
+env.put("code", Integer.parseInt(result[0]));
+env.put("out", result[1]);
+env.put("err", result[2]);
+String renv = Base64.encodeToString(env.toString().getBytes("UTF-8"), Base64.NO_WRAP);
+tasker.setVariable("renv", renv);
+return renv;</Str>
+			<Str sr="arg1" ve="3">%renv</Str>
+			<Int sr="arg2" val="1"/>
+		</Action>
+		<Action sr="act3" ve="7">
+			<code>547</code>
+			<label>##</label>
+			<on>false</on>
+			<Str sr="arg0" ve="3">%gap</Str>
+			<Str sr="arg1" ve="3">%TIMEMS - %time0</Str>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="1"/>
+			<Int sr="arg4" val="0"/>
+			<Int sr="arg5" val="3"/>
+			<Int sr="arg6" val="1"/>
+		</Action>
+		<Action sr="act4" ve="7">
+			<code>548</code>
+			<on>false</on>
+			<Str sr="arg0" ve="3">%gap</Str>
+			<Int sr="arg1" val="0"/>
+			<Str sr="arg10" ve="3"/>
+			<Int sr="arg11" val="1"/>
+			<Int sr="arg12" val="0"/>
+			<Str sr="arg13" ve="3">1</Str>
+			<Int sr="arg14" val="0"/>
+			<Str sr="arg15" ve="3"/>
+			<Int sr="arg2" val="1"/>
+			<Str sr="arg3" ve="3"/>
+			<Str sr="arg4" ve="3"/>
+			<Str sr="arg5" ve="3"/>
+			<Str sr="arg6" ve="3"/>
+			<Str sr="arg7" ve="3"/>
+			<Str sr="arg8" ve="3">99999</Str>
+			<Int sr="arg9" val="1"/>
+		</Action>
+		<Action sr="act5" ve="7">
+			<code>126</code>
+			<Str sr="arg0" ve="3">%renv</Str>
+			<Int sr="arg1" val="1"/>
+			<Int sr="arg2" val="0"/>
+			<Int sr="arg3" val="0"/>
+			<Str sr="arg4" ve="3"/>
+		</Action>
+	</Task>
+</TaskerData>
