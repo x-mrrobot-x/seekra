@@ -2,7 +2,8 @@
 //  1. expande <i data-icon="nome" class="…"></i> em <svg class="…" aria-hidden="true"><use href="#i-nome"/></svg>
 //     (os demais atributos, como data-icon-slot, passam adiante);
 //  2. troca o marcador <!-- icon-sprite --> pelo sprite (um <symbol> por ícone de ICONS);
-//  3. confere se todo ícone referenciado existe no sprite.
+//  3. confere se todo ícone referenciado existe no sprite;
+//  4. falha o build se sobrar alguma <i data-icon> sem expandir (ex.: sem </i>, autofechada ou com conteúdo dentro).
 // Roda no dev e no build, então o primeiro paint já tem os ícones, sem esperar JS.
 import { ICONS } from '../src/shared/components/icon.config.js';
 
@@ -10,6 +11,7 @@ const MARKER = '<!-- icon-sprite -->';
 const TAG = /<i\s+([^>]*\bdata-icon="([^"]*)"[^>]*)>\s*<\/i\s*>/g;
 const ATTRIBUTE = /([\w-]+)(?:="([^"]*)")?/g;
 const USED = /href="#i-([a-z0-9-]+)"/g;
+const LEFTOVER = /<i\s[^>]*\bdata-icon="([^"]*)"/g;
 const SYMBOL_ATTRIBUTES = 'viewBox="0 0 24 24" style="fill:var(--icon-fill,none)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
 const SPRITE_STYLE = 'position:absolute;width:0;height:0;overflow:hidden';
 
@@ -33,6 +35,11 @@ const expandIcon = (source, name) => {
 const transform = (source) => {
   if (!source.includes(MARKER)) throw new Error(`icon-sprite: faltou ${MARKER} no index.html`);
   const html = source.replace(TAG, (_, attributes, name) => expandIcon(attributes, name));
+  const unexpanded = [...html.matchAll(LEFTOVER)].map(([, name]) => name);
+  if (unexpanded.length) {
+    const names = [...new Set(unexpanded)].join(', ');
+    throw new Error(`icon-sprite: ${unexpanded.length} tag(s) <i data-icon> sem expandir (${names}). Cada uma precisa ser <i data-icon="nome" …></i>, sem conteúdo dentro.`);
+  }
   const missing = [...new Set([...html.matchAll(USED)].map(([, name]) => name))].filter((name) => !(name in ICONS));
   if (missing.length) throw new Error(`icon-sprite: ícone(s) fora do sprite: ${missing.join(', ')}. Rode: npm run icons`);
   return html.replace(MARKER, () => buildSprite());

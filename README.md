@@ -93,7 +93,7 @@ Os desenhos vêm do lucide, mas só em tempo de desenvolvimento: `lucide` é `de
 
 Nome montado por concatenação não é visto pelo gerador: escreva o literal.
 
-Se o HTML referenciar um ícone fora do config, o build falha dizendo o nome. No JS, nome com erro de digitação ou não literal não falha o script: o dev avisa no console (`[icon] "x" não está no sprite`).
+Se o HTML referenciar um ícone fora do config, o build falha dizendo o nome. O build também falha se sobrar alguma `<i data-icon>` sem expandir (autofechada, com conteúdo dentro ou sem `</i>`), listando os nomes; quebra de linha antes do `>` do fechamento (`</i⏎>`, formato do Prettier) é aceita. No JS, nome com erro de digitação ou não literal não falha o script: o dev avisa no console (`[icon] "x" não está no sprite`).
 
 ## Fila de execução
 
