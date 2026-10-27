@@ -417,6 +417,26 @@ select option {
   animation: pulse-ring 1s var(--ease) 3;
 }
 
+.button.active,
+.icon-button.active {
+  color: var(--accent);
+}
+
+.button.active {
+  background: rgba(53,221,245,.1);
+  border-color: rgba(53,221,245,.45);
+}
+
+.icon-button.active {
+  background: rgba(53,221,245,.14);
+}
+
+/* O <symbol> do sprite lê --icon-fill (padrão none): ícone ligado fica preenchido com a cor do texto. */
+.button.active svg,
+.icon-button.active svg {
+  --icon-fill: currentColor;
+}
+
 .overlay {
   position: fixed;
   inset: 0;

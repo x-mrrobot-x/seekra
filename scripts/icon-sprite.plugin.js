@@ -7,10 +7,10 @@
 import { ICONS } from '../src/shared/components/icon.config.js';
 
 const MARKER = '<!-- icon-sprite -->';
-const TAG = /<i\s+([^>]*\bdata-icon="([^"]*)"[^>]*)>\s*<\/i>/g;
+const TAG = /<i\s+([^>]*\bdata-icon="([^"]*)"[^>]*)>\s*<\/i\s*>/g;
 const ATTRIBUTE = /([\w-]+)(?:="([^"]*)")?/g;
 const USED = /href="#i-([a-z0-9-]+)"/g;
-const SYMBOL_ATTRIBUTES = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+const SYMBOL_ATTRIBUTES = 'viewBox="0 0 24 24" style="fill:var(--icon-fill,none)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
 const SPRITE_STYLE = 'position:absolute;width:0;height:0;overflow:hidden';
 
 const buildSprite = () => {

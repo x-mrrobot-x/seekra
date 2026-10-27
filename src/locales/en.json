@@ -161,7 +161,10 @@
     "access": "Access OK",
     "searchHere": "Search this folder",
     "favorite": "Favorite",
+    "favorited": "Favorited",
     "favoriteAdded": "Folder added to favorites",
+    "favoriteRemoved": "Folder removed from favorites",
+    "unavailable": "Folder currently unavailable",
     "folders": "Folders · '{{count}}'",
     "files": "Files · '{{count}}'",
     "empty": "Empty folder or no shell access.",
@@ -170,6 +173,9 @@
   "saved": {
     "queriesTitle": "Saved queries",
     "foldersTitle": "Favorite folders",
+    "foldersEmpty": "No favorite folders",
+    "foldersEmptyHint": "In the Explore tab, open a folder and tap Favorite.",
+    "removeFavorite": "Remove from favorites",
     "queries": {
       "backups": {
         "name": "recent backups",

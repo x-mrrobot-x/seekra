@@ -57,6 +57,10 @@ const update = {
   slider: (elements, currentKey) => {
     placeSlider(elements.slider, elements.volumeButtons.find((item) => item.dataset.volume === currentKey));
   },
+  favorite: (elements, favorited) => {
+    elements.favorite.classList.toggle('active', favorited);
+    translate(elements.favoriteLabel, favorited ? 'explorer.favorited' : 'explorer.favorite');
+  },
   backButton: (elements, atRoot) => {
     elements.backBtn.disabled = atRoot;
   },

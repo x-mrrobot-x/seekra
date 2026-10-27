@@ -5,19 +5,21 @@ const SETTINGS_FILE = 'settings.json';
 const READ_TIMEOUT = 8000;
 const WRITE_DELAY = 250;
 const MIRROR_KEY = 'seekra_preferences';
-const MIRRORED_KEYS = ['theme', 'language'];
 
-const readMirror = () => {
-  const stored = localCache.read(MIRROR_KEY) || {};
-  return Object.fromEntries(MIRRORED_KEYS.filter((key) => typeof stored[key] === 'string').map((key) => [key, stored[key]]));
-};
+const isText = (value) => typeof value === 'string';
+const isTextList = (value) => Array.isArray(value) && value.every(isText);
+
+// Chaves espelhadas em localStorage para o primeiro paint, cada uma com o seu validador.
+const MIRRORED = { theme: isText, language: isText, favorites: isTextList };
+const MIRRORED_KEYS = Object.keys(MIRRORED);
+
+const pickMirrored = (source) =>
+  Object.fromEntries(MIRRORED_KEYS.filter((key) => MIRRORED[key](source[key])).map((key) => [key, source[key]]));
+
+const readMirror = () => pickMirrored(localCache.read(MIRROR_KEY) || {});
 
 const syncMirror = (source) => {
-  const next = { ...mirror };
-  MIRRORED_KEYS.filter((key) => typeof source[key] === 'string').forEach((key) => {
-    next[key] = source[key];
-  });
-  mirror = next;
+  mirror = { ...mirror, ...pickMirrored(source) };
   localCache.write(MIRROR_KEY, mirror);
 };
 

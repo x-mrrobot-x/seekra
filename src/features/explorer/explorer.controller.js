@@ -4,6 +4,7 @@ import { t } from '../../core/i18n.js';
 import { navigate } from '../../core/router.js';
 import { HIGHLIGHT_DURATION } from './explorer.config.js';
 import * as model from './explorer.model.js';
+import * as saved from '../saved/saved.model.js';
 import { update, helpers } from './explorer.view.js';
 
 let elements = null;
@@ -22,12 +23,16 @@ const queryElements = () => {
     list: qs('#explorer-list'),
     searchHere: qs('#search-here-button'),
     favorite: qs('#favorite-button'),
+    favoriteLabel: qs('#favorite-label'),
     backBtn: qs('#parent-folder-button'),
   };
 };
 
+const renderFavorite = () => update.favorite(elements, saved.isFavorite(model.getCurrentPath()));
+
 const renderHeader = () => {
   update.header(elements, model.getCurrentVolume(), model.getCrumbs());
+  renderFavorite();
   update.volumeButtons(elements, model.getCurrentVolume().key, model.getVolumes());
   update.slider(elements, model.getCurrentVolume().key);
   update.backButton(elements, model.isAtRoot());
@@ -91,7 +96,7 @@ const handleListClick = (event) => {
 
 const handleSearchHere = () => emit('scope:set', { path: model.getCurrentPath() });
 
-const handleFavorite = () => emit('toast', { message: t('explorer.favoriteAdded'), icon: 'star' });
+const handleFavorite = () => emit('favorite:toggle', { path: model.getCurrentPath() });
 
 const handleBack = () => {
   model.goBack();
@@ -99,7 +104,10 @@ const handleBack = () => {
 };
 
 const openPath = ({ path }) => {
-  if (!model.setPath(path)) return;
+  if (!model.setPath(path)) {
+    emit('toast', { message: t('explorer.unavailable'), icon: 'triangle-alert' });
+    return;
+  }
   navigate('explorer', 'explorer');
 };
 
@@ -134,6 +142,8 @@ const bindEvents = () => {
   on('explorer:open', openPath);
   on('scope:pick', pickScope);
   on('language:changed', handleLanguage);
+  on('favorites:changed', renderFavorite);
+  on('storage:ready', renderFavorite);
   on('layout:refresh', () => update.slider(elements, model.getCurrentVolume().key));
 };
 

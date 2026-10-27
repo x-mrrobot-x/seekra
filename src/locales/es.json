@@ -160,8 +160,11 @@
     "free": "'{{size}}' libres",
     "access": "Acceso OK",
     "searchHere": "Buscar en esta carpeta",
-    "favorite": "Favorita",
+    "favorite": "Marcar favorita",
+    "favorited": "Favorita",
     "favoriteAdded": "Carpeta añadida a favoritos",
+    "favoriteRemoved": "Carpeta quitada de favoritos",
+    "unavailable": "Carpeta no disponible por ahora",
     "folders": "Carpetas · '{{count}}'",
     "files": "Archivos · '{{count}}'",
     "empty": "Carpeta vacía o sin acceso desde el shell.",
@@ -170,6 +173,9 @@
   "saved": {
     "queriesTitle": "Consultas guardadas",
     "foldersTitle": "Carpetas favoritas",
+    "foldersEmpty": "Ninguna carpeta favorita",
+    "foldersEmptyHint": "En la pestaña Explorar, abre una carpeta y toca Marcar favorita.",
+    "removeFavorite": "Quitar de favoritos",
     "queries": {
       "backups": {
         "name": "copias de seguridad recientes",

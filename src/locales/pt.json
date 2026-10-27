@@ -161,7 +161,10 @@
     "access": "Acesso OK",
     "searchHere": "Buscar nesta pasta",
     "favorite": "Favoritar",
+    "favorited": "Favoritada",
     "favoriteAdded": "Pasta adicionada aos favoritos",
+    "favoriteRemoved": "Pasta removida dos favoritos",
+    "unavailable": "Pasta indisponível no momento",
     "folders": "Pastas · '{{count}}'",
     "files": "Arquivos · '{{count}}'",
     "empty": "Pasta vazia ou sem acesso pelo shell.",
@@ -170,6 +173,9 @@
   "saved": {
     "queriesTitle": "Consultas salvas",
     "foldersTitle": "Pastas favoritas",
+    "foldersEmpty": "Nenhuma pasta favorita",
+    "foldersEmptyHint": "Na aba Explorar, abra uma pasta e toque em Favoritar.",
+    "removeFavorite": "Remover dos favoritos",
     "queries": {
       "backups": {
         "name": "backups recentes",
