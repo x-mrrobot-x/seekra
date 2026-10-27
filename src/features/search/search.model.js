@@ -61,11 +61,12 @@ const buildSearch = ({ text, type, minSize, days, recursive }) => {
 
 const getOverviewStats = () => {
   const volumes = getVolumes();
-  return [
-    { value: String(volumes.length), labelKey: 'search.overview.volumes' },
-    { value: formatSize(volumes.reduce((total, volume) => total + volume.free, 0)), labelKey: 'search.overview.free' },
-    { value: lastDuration === null ? '—' : `${lastDuration} ms`, labelKey: 'search.overview.lastSearch' },
-  ];
+  const free = volumes.reduce((total, volume) => total + volume.free, 0);
+  return {
+    volumes: String(volumes.length),
+    free: free ? formatSize(free) : '—',
+    lastSearch: lastDuration === null ? '—' : `${lastDuration} ms`,
+  };
 };
 
 export {

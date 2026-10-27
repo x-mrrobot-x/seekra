@@ -1,15 +1,15 @@
 #!/system/bin/sh
-# Uso: sh nexus.sh <arquivo .in.ID>
+# Uso: sh seekra.sh <arquivo .in.ID>
 # O arquivo de entrada é escrito pelo Tasker (Write File) e apagado pelo script.
 #   linha 1 : operação
 #   demais  : chave=valor (valor cru, sem codificação; chave repetida acumula os
 #             valores separados por quebra de linha, ex.: roots)
 # Os dados nunca passam pela linha de comando do shell.
-NEXUS_MAX=${NEXUS_MAX:-500}
-NEXUS_LIST_MAX=${NEXUS_LIST_MAX:-2000}
-NEXUS_SCAN=${NEXUS_SCAN:-50000}
+SEEKRA_MAX=${SEEKRA_MAX:-500}
+SEEKRA_LIST_MAX=${SEEKRA_LIST_MAX:-2000}
+SEEKRA_SCAN=${SEEKRA_SCAN:-50000}
 BASE=$(cd "$(dirname "$0")" 2>/dev/null && pwd)
-DATA=${NEXUS_DATA:-$BASE/data}
+DATA=${SEEKRA_DATA:-$BASE/data}
 
 NL='
 '
@@ -23,7 +23,7 @@ cleanup(){
 }
 
 roots(){
-  if [ -n "$NEXUS_ROOTS" ]; then printf '%s\n' $NEXUS_ROOTS; return; fi
+  if [ -n "$SEEKRA_ROOTS" ]; then printf '%s\n' $SEEKRA_ROOTS; return; fi
   [ -d /storage/emulated/0 ] && echo /storage/emulated/0
   for d in /storage/????-????; do [ -d "$d" ] && echo "$d"; done
 }
@@ -69,7 +69,7 @@ op_search(){
   [ -n "$p_roots" ] || p_roots=$ALLROOTS
   [ -n "$p_roots" ] || die "nenhuma raiz disponível"
   chk_roots || die "raiz não autorizada"
-  max=${p_max:-$NEXUS_MAX}; mb=${p_minmb:-0}; dy=${p_days:-0}
+  max=${p_max:-$SEEKRA_MAX}; mb=${p_minmb:-0}; dy=${p_days:-0}
   num "$max"; num "$mb"; num "$dy"
   set -f
   IFS='
@@ -96,7 +96,7 @@ op_search(){
   if [ -n "$p_q" ] && [ "$p_mode" = regex ]; then
     mkdir -p "$DATA" || die "falha ao criar diretório de dados"
     tmp=$DATA/.s$$
-    find "$@" 2>/dev/null | head -n "$NEXUS_SCAN" > "$tmp"
+    find "$@" 2>/dev/null | head -n "$SEEKRA_SCAN" > "$tmp"
     sed 's|.*/||' "$tmp" | grep -Ein -e "$p_q" 2>/dev/null | cut -d: -f1 | sed 's/$/p/' > "$tmp.n"
     sed -n -f "$tmp.n" "$tmp" | head -n "$max" | stat_all
     return
@@ -112,7 +112,7 @@ op_ia(){
 '*) die "caracteres não permitidos";;
   esac
   case $c in 'find '*' -print') ;; *) die "o comando deve ser find … -print";; esac
-  max=${p_max:-$NEXUS_MAX}; num "$max"
+  max=${p_max:-$SEEKRA_MAX}; num "$max"
   set -f
   chk=$(printf '%s' "$c" | tr -d "'\"\\\\")
   set -- $chk
@@ -139,7 +139,7 @@ op_list(){
   d=${p_dir%/}
   inroots "$d" || die "pasta fora das raízes autorizadas"
   [ -d "$d" ] || die "pasta inexistente"
-  max=${p_max:-$NEXUS_LIST_MAX}; num "$max"
+  max=${p_max:-$SEEKRA_LIST_MAX}; num "$max"
   [ -r "$d" ] || die "pasta sem permissão de leitura"
   find -L "$d" -mindepth 1 -maxdepth 1 \( -type d -printf 'd|0|%T@|%p\n' \) -o -printf 'f|%s|%T@|%p\n' 2>/dev/null \
     | sed 's/^\([df]|[0-9]*|[0-9]*\)\.[0-9]*|/\1|/' \

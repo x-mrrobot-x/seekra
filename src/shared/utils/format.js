@@ -11,4 +11,9 @@ const formatSize = (bytes) => {
 
 const formatDate = (seconds) => new Date(seconds * 1000).toISOString().slice(0, 10);
 
-export { escapeHtml, formatSize, formatDate };
+const timeElement = (seconds, prefix = '') => {
+  const date = formatDate(seconds);
+  return `<time datetime="${date}">${prefix}${date}</time>`;
+};
+
+export { escapeHtml, formatSize, formatDate, timeElement };

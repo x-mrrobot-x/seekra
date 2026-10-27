@@ -1,34 +1,40 @@
-import './file-sheet.css';
 import { qs } from '../../shared/utils/dom.js';
 import { emit, on } from '../../core/event-bus.js';
 import { t } from '../../core/i18n.js';
 import * as modalManager from '../../core/modal-manager.js';
-import { refreshIcons } from '../../shared/components/icon.js';
 import * as model from './file-sheet.model.js';
-import { render, update, helpers } from './file-sheet.view.js';
+import { update, helpers } from './file-sheet.view.js';
 
 const MODAL_NAME = 'file-sheet';
 
 let elements = null;
 
 const queryElements = () => {
-  elements = { sheet: qs('#sheet') };
+  elements = {
+    sheet: qs('#file-sheet'),
+    name: qs('#sheet-name'),
+    preview: qs('#sheet-preview'),
+    path: qs('#sheet-path'),
+    size: qs('#sheet-size'),
+    modified: qs('#sheet-modified'),
+    type: qs('#sheet-type'),
+    hash: qs('#sheet-hash'),
+  };
 };
 
 const openSheet = ({ file }) => {
   model.setFile(file);
-  render.content(elements.sheet, file);
-  refreshIcons();
+  update.file(elements, file);
+  update.hash(elements.hash, 'idle');
   modalManager.open(MODAL_NAME);
 };
 
 const computeHash = async () => {
-  const element = qs('#hash-value', elements.sheet);
-  update.hash(element, 'loading');
+  update.hash(elements.hash, 'loading');
   try {
-    update.hash(element, 'done', await model.computeHash());
+    update.hash(elements.hash, 'done', await model.computeHash());
   } catch (error) {
-    update.hash(element, 'error', helpers.retryText(error.message));
+    update.hash(elements.hash, 'error', helpers.retryText(error.message));
   }
 };
 
@@ -39,7 +45,7 @@ const runFileAction = async (action) => {
     await run();
     emit('toast', { message: t(messageKey), icon: iconName });
   } catch (error) {
-    emit('toast', { message: error.message, icon: 'alert-triangle' });
+    emit('toast', { message: error.message, icon: 'triangle-alert' });
   }
 };
 
@@ -48,7 +54,7 @@ const copyPath = async () => {
     await navigator.clipboard.writeText(model.getFile().path);
     emit('toast', { message: t('sheet.copied'), icon: 'copy' });
   } catch {
-    emit('toast', { message: t('ai.copyFailed'), icon: 'alert-triangle' });
+    emit('toast', { message: t('ai.copyFailed'), icon: 'triangle-alert' });
   }
 };
 

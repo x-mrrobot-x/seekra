@@ -1,7 +1,6 @@
 import { qs } from '../utils/dom.js';
-import { escapeHtml } from '../utils/format.js';
 import { on } from '../../core/event-bus.js';
-import { icon, refreshIcons } from './icon.js';
+import { setIcon } from './icon.js';
 
 const TOAST_DURATION = 2200;
 
@@ -9,15 +8,15 @@ let elements = null;
 let timer = null;
 
 const queryElements = () => {
-  elements = { toast: qs('#toast') };
+  elements = { toast: qs('#toast'), message: qs('#toast-message') };
 };
 
 const show = ({ message, icon: iconName = 'check' }) => {
-  elements.toast.innerHTML = `${icon(iconName, 'icon-sm')}<span>${escapeHtml(message)}</span>`;
-  elements.toast.classList.add('on');
-  refreshIcons();
+  setIcon(elements.toast, iconName);
+  elements.message.textContent = message;
+  elements.toast.classList.add('visible');
   clearTimeout(timer);
-  timer = setTimeout(() => elements.toast.classList.remove('on'), TOAST_DURATION);
+  timer = setTimeout(() => elements.toast.classList.remove('visible'), TOAST_DURATION);
 };
 
 const init = () => {

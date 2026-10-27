@@ -1,6 +1,7 @@
 import { t } from '../../core/i18n.js';
 import * as api from '../../core/api-adapter.js';
-import { INTERNAL_ROOT, VOLUME_DEFAULTS } from './explorer.config.js';
+import * as localCache from '../../shared/utils/local-cache.js';
+import { INTERNAL_ROOT, VOLUMES_CACHE_KEY, VOLUME_DEFAULTS } from './explorer.config.js';
 
 const volumes = {
   int: { key: 'int', root: INTERNAL_ROOT, free: 0, total: 0, on: true },
@@ -28,14 +29,29 @@ const describePath = (path) => {
   return volume ? t(volume.labelKey) : path.split('/').pop();
 };
 
-const loadVolumes = async () => {
-  const list = await api.volumes();
+const applyVolumes = (list) => {
   const internal = list.find((item) => item.root === INTERNAL_ROOT) || list[0];
   const external = list.find((item) => item !== internal);
   if (internal) Object.assign(volumes.int, { root: internal.root, free: internal.free, total: internal.total });
   volumes.sd.on = Boolean(external);
   if (external) Object.assign(volumes.sd, { root: external.root, free: external.free, total: external.total });
   if (currentKey === 'sd' && !external) setVolume('int');
+};
+
+const isCachedVolume = (item) =>
+  item && typeof item.root === 'string' && Number.isFinite(item.free) && Number.isFinite(item.total);
+
+const restoreVolumes = () => {
+  const cached = localCache.read(VOLUMES_CACHE_KEY);
+  if (!Array.isArray(cached) || !cached.length || !cached.every(isCachedVolume)) return false;
+  applyVolumes(cached);
+  return true;
+};
+
+const loadVolumes = async () => {
+  const list = await api.volumes();
+  applyVolumes(list);
+  localCache.write(VOLUMES_CACHE_KEY, list);
 };
 
 const setVolume = (key) => {
@@ -94,6 +110,7 @@ export {
   getFolders,
   getFiles,
   describePath,
+  restoreVolumes,
   loadVolumes,
   setVolume,
   setPath,

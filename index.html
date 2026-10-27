@@ -1,45 +1,655 @@
-<!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#080D14" id="meta-theme">
-  <title>NEXUS — Intelligent File Discovery</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-</head>
-<body>
-  <div class="aurora"></div>
-  <div class="grain"></div>
-  <div class="phone">
-    <header>
-      <div class="logo">
-        <div class="mark"><i data-lucide="hexagon"></i></div>
-        <b>NEX<i>US</i></b>
+<!doctype html>
+<html lang="pt-BR" data-theme="dark" class="booting">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#080D14" id="meta-theme" />
+    <title>Seekra — Find anything. Your way.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/core/app.css" />
+    <script>
+      try {
+        var p = JSON.parse(localStorage.getItem("seekra_preferences"));
+        if (p && (p.theme === "light" || p.theme === "dark"))
+          document.documentElement.dataset.theme = p.theme;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <!-- icon-sprite -->
+    <div class="aurora-background"></div>
+    <div class="grain-overlay"></div>
+
+    <div class="app-shell">
+      <header class="app-header">
+        <h1 class="app-logo">
+          <span class="logo-mark"><i data-icon="hexagon"></i></span>
+          <span class="logo-name"
+            >SEEK<span class="logo-highlight">RA</span></span
+          >
+        </h1>
+      </header>
+
+      <main class="app-main">
+        <!-- search -->
+        <section class="view active" id="search-view">
+          <div class="mode-switch" id="mode-switch">
+            <div class="mode-switch-slider" id="mode-slider"></div>
+            <button type="button" data-mode="simple" class="active">
+              <i data-icon="search" class="icon-sm"></i
+              ><span data-i18n="search.mode.simple">Simples</span>
+            </button>
+            <button type="button" data-mode="regex">
+              <i data-icon="regex" class="icon-sm"></i
+              ><span data-i18n="search.mode.regex">Regex</span>
+            </button>
+            <button type="button" data-mode="ai">
+              <i data-icon="sparkles" class="icon-sm"></i
+              ><span data-i18n="search.mode.ai">IA</span>
+            </button>
+          </div>
+
+          <section class="ai-prompt hidden" id="ai-prompt">
+            <h2>
+              <i data-icon="wand-sparkles" class="icon-md"></i
+              ><span data-i18n="ai.prompt.title"
+                >Descreva o que deseja encontrar</span
+              >
+            </h2>
+            <p>
+              <span data-i18n="ai.prompt.descriptionStart"
+                >Escreva em linguagem natural — tipo, tamanho, data, pasta. A IA
+                gera o comando e o </span
+              ><strong data-i18n="ai.prompt.descriptionStrong"
+                >SEEKRA valida antes de executar</strong
+              ><span data-i18n="ai.prompt.descriptionEnd"
+                >. Nada roda sem sua confirmação.</span
+              >
+            </p>
+            <ul class="prompt-examples">
+              <li>
+                <button
+                  type="button"
+                  class="chip"
+                  data-prompt-key="ai.examples.pdf.prompt"
+                  data-i18n="ai.examples.pdf.label"
+                >
+                  “PDFs maiores que 5 MB em Download”
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="chip"
+                  data-prompt-key="ai.examples.video.prompt"
+                  data-i18n="ai.examples.video.label"
+                >
+                  “vídeos com mais de 500 MB”
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="chip"
+                  data-prompt-key="ai.examples.png.prompt"
+                  data-i18n="ai.examples.png.label"
+                >
+                  “PNG dos últimos 7 dias”
+                </button>
+              </li>
+            </ul>
+          </section>
+
+          <search class="search-box">
+            <span class="search-icon" id="search-icon"
+              ><i data-icon-slot data-icon="search" class="icon-md"></i
+            ></span>
+            <input
+              type="search"
+              id="search-input"
+              autocomplete="off"
+              placeholder="Nome ou extensão…"
+              data-i18n-placeholder="search.placeholder.simple"
+            />
+            <button type="button" class="search-button" id="search-button">
+              <span id="search-button-icon"
+                ><i data-icon-slot data-icon="search" class="icon-sm"></i></span
+              ><span id="search-button-label" data-i18n="search.search"
+                >Buscar</span
+              >
+            </button>
+          </search>
+
+          <div class="list-item search-scope" id="search-scope">
+            <div class="item-icon item-icon-dir">
+              <i data-icon="folder-open" class="icon-md"></i>
+            </div>
+            <div class="item-meta">
+              <p class="scope-label" data-i18n="search.scope.label">
+                Buscar em
+              </p>
+              <p class="item-name" id="scope-name">Todos os volumes</p>
+              <p class="item-path" id="scope-path">Memória interna</p>
+            </div>
+            <button
+              type="button"
+              class="icon-button hidden"
+              id="clear-scope-button"
+            >
+              <i data-icon="x" class="icon-sm"></i>
+            </button>
+            <i data-icon="chevron-right" class="icon-md item-chevron"></i>
+          </div>
+
+          <section class="card filter-card" id="filter-card">
+            <h3>
+              <i data-icon="sliders-horizontal" class="icon-xs"></i
+              ><span data-i18n="search.filters.title">Filtros</span>
+            </h3>
+            <div class="field-grid">
+              <div class="field-cell">
+                <label for="filter-type" data-i18n="search.filters.type"
+                  >Tipo de arquivo</label
+                >
+                <select id="filter-type">
+                  <option value="" data-i18n="search.filters.all">Todos</option>
+                  <option value="img" data-i18n="category.img">imagem</option>
+                  <option value="vid" data-i18n="category.vid">vídeo</option>
+                  <option value="aud" data-i18n="category.aud">áudio</option>
+                  <option value="doc" data-i18n="category.doc">
+                    documento
+                  </option>
+                  <option value="code" data-i18n="category.code">código</option>
+                </select>
+              </div>
+              <div class="field-cell">
+                <label for="filter-size" data-i18n="search.filters.size"
+                  >Tamanho mínimo</label
+                >
+                <select id="filter-size">
+                  <option value="" data-i18n="search.filters.any">
+                    Qualquer
+                  </option>
+                  <option value="1" data-i18n="search.filters.size1">
+                    Mais de 1 MB
+                  </option>
+                  <option value="100" data-i18n="search.filters.size100">
+                    Mais de 100 MB
+                  </option>
+                  <option value="500" data-i18n="search.filters.size500">
+                    Mais de 500 MB
+                  </option>
+                </select>
+              </div>
+              <div class="field-cell">
+                <label for="filter-period" data-i18n="search.filters.period"
+                  >Período</label
+                >
+                <select id="filter-period">
+                  <option value="" data-i18n="search.filters.any">
+                    Qualquer
+                  </option>
+                  <option value="7" data-i18n="search.filters.days7">
+                    Últimos 7 dias
+                  </option>
+                  <option value="30" data-i18n="search.filters.days30">
+                    Últimos 30 dias
+                  </option>
+                </select>
+              </div>
+              <div class="field-cell">
+                <label
+                  for="recursive-toggle"
+                  data-i18n="search.filters.recursive"
+                  >Recursividade</label
+                >
+                <button
+                  type="button"
+                  class="chip chip-full-width active"
+                  id="recursive-toggle"
+                >
+                  <i data-icon="corner-down-right" class="icon-xs"></i
+                  ><span data-i18n="search.filters.includeSubfolders"
+                    >Incluir subpastas</span
+                  >
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="card ai-panel hidden" id="ai-panel">
+            <h3 id="ai-title">
+              <i data-icon-slot data-icon="terminal" class="icon-xs"></i
+              ><span id="ai-title-text" data-i18n="ai.panel.title"
+                >Comando gerado — revise antes de executar</span
+              >
+            </h3>
+            <div id="ai-result">
+              <code class="command-box" id="ai-command"></code>
+              <p class="command-explanation" id="ai-explanation"></p>
+              <ul class="chips" id="ai-chips"></ul>
+              <div class="button-group">
+                <button type="button" class="button" id="ai-edit-button">
+                  <i data-icon="pencil" class="icon-sm"></i
+                  ><span data-i18n="ai.panel.edit">Editar</span>
+                </button>
+                <button type="button" class="button" id="ai-copy-button">
+                  <i data-icon="copy" class="icon-sm"></i
+                  ><span data-i18n="ai.panel.copy">Copiar</span>
+                </button>
+                <button type="button" class="button primary" id="ai-run-button">
+                  <i data-icon="play" class="icon-sm"></i
+                  ><span data-i18n="ai.panel.run">Executar via Tasker</span>
+                </button>
+              </div>
+            </div>
+            <div class="ai-loading hidden" id="ai-loading">
+              <div class="loading-orbit"></div>
+              <p>
+                <strong data-i18n="ai.loading.title">Consultando Gemini…</strong
+                ><br /><span data-i18n="ai.loading.subtitle"
+                  >Interpretando intenção e gerando comando</span
+                >
+              </p>
+            </div>
+            <div class="error-message hidden" id="ai-error">
+              <p id="ai-error-message"></p>
+              <p id="ai-error-hint-group"><small id="ai-error-hint"></small></p>
+              <p id="ai-error-demo-group">
+                <button type="button" class="chip" id="ai-demo-button">
+                  <i data-icon="cpu" class="icon-xs"></i
+                  ><span data-i18n="ai.errors.useLocal"
+                    >Usar interpretador local (demo, sem API)</span
+                  >
+                </button>
+              </p>
+            </div>
+          </section>
+
+          <div id="search-home">
+            <h2 class="section-heading" data-i18n="search.recents">Recentes</h2>
+            <ul class="chips" id="recent-chips">
+              <li>
+                <button
+                  type="button"
+                  class="chip"
+                  data-recent="backup"
+                  data-mode="simple"
+                >
+                  <i data-icon="history" class="icon-xs"></i><span>backup</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="chip"
+                  data-recent="IMG_[0-9]{8}"
+                  data-mode="regex"
+                >
+                  <i data-icon="regex" class="icon-xs"></i
+                  ><span>IMG_[0-9]{8}</span>
+                </button>
+              </li>
+            </ul>
+            <h2 class="section-heading" data-i18n="search.overview.title">
+              Visão geral
+            </h2>
+            <ul class="overview-stats" id="overview-stats">
+              <li class="stat-card">
+                <strong class="stat-value" id="stat-volumes">1</strong
+                ><span class="stat-label" data-i18n="search.overview.volumes"
+                  >volumes ativos</span
+                >
+              </li>
+              <li class="stat-card">
+                <strong class="stat-value" id="stat-free">—</strong
+                ><span class="stat-label" data-i18n="search.overview.free"
+                  >livres</span
+                >
+              </li>
+              <li class="stat-card">
+                <strong class="stat-value" id="stat-last-search">—</strong
+                ><span class="stat-label" data-i18n="search.overview.lastSearch"
+                  >última busca</span
+                >
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- results -->
+        <section class="view list-view" id="results-view">
+          <button type="button" class="back-button" id="new-search-button">
+            <i data-icon="arrow-left" class="icon-xs"></i
+            ><span data-i18n="results.back">Nova busca</span>
+          </button>
+          <output class="results-status">
+            <span class="hidden" id="results-count"
+              ><strong id="results-count-value"></strong>
+              <span id="results-count-label"></span
+            ></span>
+            <span class="hidden" id="results-time"
+              ><i data-icon="timer" class="icon-xs"></i>
+              <span id="results-time-value"></span
+            ></span>
+            <span id="results-state"
+              ><span class="spinner hidden" id="results-spinner"></span>
+              <span id="results-state-text"></span
+            ></span>
+          </output>
+          <div class="progress-bar" id="results-progress">
+            <span class="progress-fill"></span>
+          </div>
+          <ul class="chips results-chips" id="results-chips"></ul>
+          <div class="scroll-list" id="results-list"></div>
+        </section>
+
+        <!-- explorer -->
+        <section class="view list-view" id="explorer-view">
+          <div class="volume-switch" id="volume-switch">
+            <div class="volume-switch-slider" id="volume-slider"></div>
+            <button type="button" data-volume="int" class="active">
+              <i data-icon="smartphone" class="icon-md"></i
+              ><span data-i18n="explorer.internal">Memória interna</span>
+            </button>
+            <button type="button" data-volume="sd" class="hidden">
+              <i data-icon="hard-drive" class="icon-md"></i
+              ><span data-i18n="explorer.sd">Cartão SD</span>
+            </button>
+          </div>
+          <header class="card explorer-header">
+            <div class="volume-info" id="volume-info">
+              <div class="volume-icon" id="volume-icon">
+                <i data-icon-slot data-icon="smartphone" class="icon-md"></i>
+              </div>
+              <div class="volume-text">
+                <strong
+                  class="volume-name"
+                  id="volume-name"
+                  data-i18n="explorer.internal"
+                  >Memória interna</strong
+                ><span class="volume-free" id="volume-free"></span>
+              </div>
+              <p class="volume-status">
+                <i data-icon="circle-check" class="icon-xs"></i
+                ><span data-i18n="explorer.access">Acesso OK</span>
+              </p>
+            </div>
+            <nav class="path-bar">
+              <button
+                type="button"
+                class="button parent-folder-button"
+                id="parent-folder-button"
+              >
+                <i data-icon="arrow-left" class="icon-sm"></i>
+              </button>
+              <ol class="breadcrumbs" id="breadcrumbs"></ol>
+            </nav>
+            <div class="button-group">
+              <button
+                type="button"
+                class="button primary"
+                id="search-here-button"
+              >
+                <i data-icon="search" class="icon-sm"></i
+                ><span data-i18n="explorer.searchHere">Buscar nesta pasta</span>
+              </button>
+              <button type="button" class="button" id="favorite-button">
+                <i data-icon="star" class="icon-sm"></i
+                ><span data-i18n="explorer.favorite">Favoritar</span>
+              </button>
+            </div>
+          </header>
+          <div class="scroll-list" id="explorer-list"></div>
+        </section>
+
+        <!-- saved -->
+        <section class="view" id="saved-view">
+          <h2 class="section-heading" data-i18n="saved.queriesTitle">
+            Consultas salvas
+          </h2>
+          <ul class="file-list" id="saved-queries"></ul>
+          <h2 class="section-heading" data-i18n="saved.foldersTitle">
+            Pastas favoritas
+          </h2>
+          <ul class="file-list" id="saved-folders"></ul>
+        </section>
+
+        <!-- settings -->
+        <section class="view" id="settings-view">
+          <h2 class="section-heading" data-i18n="settings.preferences">
+            Preferências
+          </h2>
+          <section class="card">
+            <h3>
+              <i data-icon="palette" class="icon-xs"></i
+              ><label for="theme-select" data-i18n="settings.themeTitle"
+                >Tema</label
+              >
+            </h3>
+            <select id="theme-select">
+              <option value="dark" data-i18n="settings.theme.dark">
+                Escuro
+              </option>
+              <option value="light" data-i18n="settings.theme.light">
+                Claro
+              </option>
+            </select>
+          </section>
+          <section class="card">
+            <h3>
+              <i data-icon="languages" class="icon-xs"></i
+              ><label for="language-select" data-i18n="settings.languageTitle"
+                >Idioma</label
+              >
+            </h3>
+            <select id="language-select">
+              <option value="pt">Português (Brasil)</option>
+              <option value="en">English</option>
+              <option value="es">Español</option>
+            </select>
+          </section>
+
+          <h2 class="section-heading" data-i18n="settings.aiTitle">
+            IA — Gemini
+          </h2>
+          <section class="card">
+            <h3>
+              <i data-icon="key-round" class="icon-xs"></i
+              ><label for="api-key" data-i18n="settings.apiKey"
+                >Chave de API</label
+              >
+            </h3>
+            <div class="form-row">
+              <div class="key-wrap">
+                <input
+                  class="field-input monospace"
+                  type="password"
+                  id="api-key"
+                  placeholder="AIza…"
+                />
+                <button type="button" class="key-toggle" id="toggle-key-button">
+                  <i data-icon-slot data-icon="eye" class="icon-sm"></i>
+                </button>
+              </div>
+            </div>
+            <div class="form-row"><select id="model-select"></select></div>
+            <div class="button-group">
+              <button type="button" class="button" id="test-key-button">
+                <span class="spinner hidden" id="test-spinner"></span
+                ><i data-icon-slot data-icon="plug-zap" class="icon-sm"></i
+                ><span id="test-label" data-i18n="settings.test">Testar</span>
+              </button>
+              <button type="button" class="button primary" id="save-key-button">
+                <i data-icon="save" class="icon-sm"></i
+                ><span data-i18n="settings.save">Salvar</span>
+              </button>
+            </div>
+            <p class="privacy-note">
+              <i data-icon="shield-check" class="icon-sm"></i
+              ><span
+                ><strong data-i18n="settings.privacyLabel">Privacidade:</strong>
+                <span data-i18n="settings.privacyText"
+                  >apenas sua descrição em texto é enviada ao Gemini para gerar
+                  o comando. Nenhum conteúdo de arquivo sai do
+                  dispositivo.</span
+                ></span
+              >
+            </p>
+            <p class="success-message hidden" id="api-key-success">
+              <i data-icon="check" class="icon-sm"></i
+              ><span id="api-key-success-message"></span>
+            </p>
+            <p class="error-message hidden" id="api-key-error"></p>
+          </section>
+
+          <h2 class="section-heading" data-i18n="settings.storageTitle">
+            Armazenamento
+          </h2>
+          <section class="card">
+            <h3>
+              <i data-icon="hard-drive" class="icon-xs"></i
+              ><span data-i18n="settings.roots">Raízes autorizadas</span>
+            </h3>
+            <dl id="roots-list"></dl>
+          </section>
+
+          <h2 class="section-heading" data-i18n="settings.environmentTitle">
+            Ambiente
+          </h2>
+          <section class="card">
+            <h3>
+              <i data-icon="plug-zap" class="icon-xs"></i
+              ><span data-i18n="settings.execution">Execução</span>
+            </h3>
+            <dl>
+              <div class="detail-row">
+                <dt data-i18n="settings.activeEnvironment">Ambiente ativo</dt>
+                <dd id="environment-name"></dd>
+              </div>
+            </dl>
+            <div class="button-group">
+              <button type="button" class="button" id="ping-button">
+                <i data-icon="activity" class="icon-sm"></i
+                ><span data-i18n="settings.ping">Testar execução</span>
+              </button>
+            </div>
+          </section>
+        </section>
+      </main>
+
+      <nav class="app-nav" id="app-nav">
+        <div class="nav-indicator" id="nav-indicator"></div>
+        <button
+          type="button"
+          class="nav-tab active"
+          data-view="search"
+          data-tab="search"
+        >
+          <span class="nav-icon"><i data-icon="search"></i></span
+          ><span data-i18n="nav.search">Buscar</span>
+        </button>
+        <button
+          type="button"
+          class="nav-tab"
+          data-view="explorer"
+          data-tab="explorer"
+        >
+          <span class="nav-icon"><i data-icon="folder-open"></i></span
+          ><span data-i18n="nav.explorer">Explorar</span>
+        </button>
+        <button
+          type="button"
+          class="nav-tab"
+          data-view="saved"
+          data-tab="saved"
+        >
+          <span class="nav-icon"><i data-icon="bookmark"></i></span
+          ><span data-i18n="nav.saved">Salvas</span>
+        </button>
+        <button
+          type="button"
+          class="nav-tab"
+          data-view="settings"
+          data-tab="settings"
+        >
+          <span class="nav-icon"><i data-icon="settings"></i></span
+          ><span data-i18n="nav.settings">Ajustes</span>
+        </button>
+      </nav>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- file sheet -->
+    <section class="sheet" id="file-sheet">
+      <div class="sheet-handle"></div>
+      <header class="sheet-header">
+        <h2 class="sheet-title" id="sheet-name"></h2>
+        <button type="button" class="sheet-close" data-action="close">
+          <i data-icon="x" class="icon-md"></i>
+        </button>
+      </header>
+      <div class="preview-box" id="sheet-preview">
+        <i data-icon-slot data-icon="file-text" class="icon-lg"></i>
       </div>
-    </header>
+      <dl>
+        <div class="detail-row">
+          <dt data-i18n="sheet.path">Caminho</dt>
+          <dd id="sheet-path"></dd>
+        </div>
+        <div class="detail-row">
+          <dt data-i18n="sheet.size">Tamanho</dt>
+          <dd id="sheet-size"></dd>
+        </div>
+        <div class="detail-row">
+          <dt data-i18n="sheet.modified">Modificado</dt>
+          <dd id="sheet-modified"></dd>
+        </div>
+        <div class="detail-row">
+          <dt data-i18n="sheet.type">Tipo</dt>
+          <dd id="sheet-type"></dd>
+        </div>
+        <div class="detail-row">
+          <dt data-i18n="sheet.hash">Hash SHA-256</dt>
+          <dd>
+            <button
+              type="button"
+              class="hash-value"
+              id="sheet-hash"
+              data-action="hash"
+            ></button>
+          </dd>
+        </div>
+      </dl>
+      <div class="button-group">
+        <button type="button" class="button" data-action="open">
+          <i data-icon="external-link" class="icon-sm"></i
+          ><span data-i18n="sheet.open">Abrir com</span>
+        </button>
+        <button type="button" class="button" data-action="share">
+          <i data-icon="share-2" class="icon-sm"></i
+          ><span data-i18n="sheet.share">Compart.</span>
+        </button>
+        <button type="button" class="button" data-action="copy">
+          <i data-icon="copy" class="icon-sm"></i
+          ><span data-i18n="sheet.copyPath">Caminho</span>
+        </button>
+      </div>
+    </section>
 
-    <main>
-      <section class="view on" id="view-search"></section>
-      <section class="view view-fixed" id="view-results"></section>
-      <section class="view view-fixed" id="view-explorer"></section>
-      <section class="view" id="view-saved"></section>
-      <section class="view" id="view-settings"></section>
-    </main>
+    <output class="toast" id="toast"
+      ><i data-icon-slot data-icon="check" class="icon-sm"></i
+      ><span id="toast-message"></span
+    ></output>
 
-    <nav id="nav">
-      <div class="nav-bar" id="nav-bar"></div>
-      <button class="on" data-view="search" data-tab="search"><span class="nav-icon"><i data-lucide="search"></i></span><span data-i18n="nav.search"></span></button>
-      <button data-view="explorer" data-tab="explorer"><span class="nav-icon"><i data-lucide="folder-open"></i></span><span data-i18n="nav.explorer"></span></button>
-      <button data-view="saved" data-tab="saved"><span class="nav-icon"><i data-lucide="bookmark"></i></span><span data-i18n="nav.saved"></span></button>
-      <button data-view="settings" data-tab="settings"><span class="nav-icon"><i data-lucide="settings"></i></span><span data-i18n="nav.settings"></span></button>
-    </nav>
-  </div>
-
-  <div class="overlay" id="overlay"></div>
-  <div class="sheet" id="sheet"></div>
-  <div class="toast" id="toast"></div>
-
-  <script type="module" src="/src/main.js"></script>
-</body>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>

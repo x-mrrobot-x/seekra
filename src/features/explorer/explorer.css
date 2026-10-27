@@ -29,7 +29,7 @@
   gap: var(--space-xs);
 }
 
-.volume-switch button.on {
+.volume-switch button.active {
   color: #fff;
   font-weight: 700;
 }
@@ -41,6 +41,8 @@
 
 .volume-switch-slider {
   position: absolute;
+  left: var(--space-xxs);
+  width: calc(100% - 2 * var(--space-xxs));
   top: 0.5rem;
   bottom: 0.5rem;
   border-radius: var(--radius-sm);
@@ -57,7 +59,7 @@
   gap: var(--space-sm);
 }
 
-.explorer-header .btn-row {
+.explorer-header .button-group {
   margin-top: 0;
 }
 
@@ -92,12 +94,12 @@
   gap: var(--space-xxs);
 }
 
-.volume-info .volume-text b {
+.volume-info .volume-name {
   font-size: var(--font-md);
   font-weight: 600;
 }
 
-.volume-info .volume-text span {
+.volume-info .volume-free {
   font-size: var(--font-xs);
   color: var(--muted);
 }
@@ -120,18 +122,18 @@
   height: var(--icon-xs);
 }
 
-.crumbs-row {
+.path-bar {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
 }
 
-.crumbs-row .crumbs {
+.path-bar .breadcrumbs {
   flex: 1;
   min-width: 0;
 }
 
-.crumbs-row #back-btn {
+.path-bar .parent-folder-button {
   flex: 0 0 auto;
   width: auto;
   padding: var(--space-xs);
@@ -140,7 +142,8 @@
   border-radius: var(--radius-sm) !important;
 }
 
-.crumbs {
+.breadcrumbs {
+  list-style: none;
   display: flex;
   gap: var(--space-xxs);
   align-items: center;
@@ -155,15 +158,30 @@
   white-space: nowrap;
 }
 
-[data-theme="light"] .crumbs {
+[data-theme="light"] .breadcrumbs {
   background: var(--solid2);
 }
 
-.crumbs::-webkit-scrollbar {
+.breadcrumbs::-webkit-scrollbar {
   display: none;
 }
 
-.crumbs a {
+.breadcrumbs li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xxs);
+  flex-shrink: 0;
+}
+
+.breadcrumbs li + li::before {
+  content: '›';
+  opacity: .45;
+}
+
+.breadcrumbs button {
+  background: none;
+  border: 0;
+  font: inherit;
   color: var(--accent);
   cursor: pointer;
   padding: var(--space-xxs) var(--space-xs);
@@ -172,24 +190,19 @@
   flex-shrink: 0;
 }
 
-.crumbs a:last-child {
+.breadcrumbs li:last-child button {
   color: var(--text);
   font-weight: 500;
 }
 
-.crumbs a:hover {
+.breadcrumbs button:hover {
   background: rgba(53,221,245,.1);
 }
 
-.crumbs span {
-  opacity: .45;
-  flex-shrink: 0;
-}
-
-.file-list .section-label-first {
-  margin: 0 0.2rem 0.2rem;
-}
-
-.file-list .section-label-next {
+.scroll-list .section-heading {
   margin: var(--space-sm) 0.2rem 0.2rem;
+}
+
+.scroll-list .section-heading:first-child {
+  margin-top: 0;
 }

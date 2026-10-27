@@ -1,10 +1,10 @@
-import { createExecutionQueue } from '../execution-queue.js';
+import { createExecutionQueue, PARALLEL_JOBS } from '../execution-queue.js';
 import { decode } from '../../shared/utils/base64.js';
 import { buildCommand } from '../../shared/utils/protocol.js';
 import { emit } from '../event-bus.js';
 
 const name = 'tasker';
-const TASK_NAME = 'FO 02 - EXEC';
+const TASK_NAME = 'SK 02 - EXEC';
 const TASK_PRIORITY = 10;
 
 const pending = new Map();
@@ -62,9 +62,9 @@ const receive = (base64) => {
   return true;
 };
 
-window.NexusBridge = { receive };
+window.SeekraBridge = { receive };
 
-const queue = createExecutionQueue(sendJob, { onDrop: (job) => pending.delete(job.id) });
+const queue = createExecutionQueue(sendJob, { concurrency: PARALLEL_JOBS, onDrop: (job) => pending.delete(job.id) });
 
 const unwrapOutput = ({ code, stdout, stderr }) => {
   if (code !== 0) throw new Error(stderr.trim() || `código ${code}`);
@@ -72,8 +72,9 @@ const unwrapOutput = ({ code, stdout, stderr }) => {
 };
 
 const execute = (command, options) => queue.push(command, options);
-const read = (path, options) => execute(buildCommand('read', { path }), options).then(unwrapOutput);
-const write = (path, content) => execute(buildCommand('write', { path, data: content })).then(unwrapOutput);
+const fileLane = (path) => `file:${path}`;
+const read = (path, options) => execute(buildCommand('read', { path }), { ...options, key: fileLane(path) }).then(unwrapOutput);
+const write = (path, content) => execute(buildCommand('write', { path, data: content }), { key: fileLane(path) }).then(unwrapOutput);
 const notify = (message) => emit('toast', { message, icon: 'info' });
 const exit = () => {
   const bridge = getBridge();

@@ -1,10 +1,8 @@
-import './settings.css';
 import { qs } from '../../shared/utils/dom.js';
 import { emit, on } from '../../core/event-bus.js';
 import { t } from '../../core/i18n.js';
-import { refreshIcons } from '../../shared/components/icon.js';
 import * as model from './settings.model.js';
-import { render, update } from './settings.view.js';
+import { update } from './settings.view.js';
 
 let elements = null;
 let keyVisible = false;
@@ -14,13 +12,15 @@ const queryElements = () => {
     themeSelect: qs('#theme-select'),
     languageSelect: qs('#language-select'),
     apiKey: qs('#api-key'),
-    keyToggle: qs('#key-toggle'),
+    keyToggle: qs('#toggle-key-button'),
     modelSelect: qs('#model-select'),
-    testButton: qs('#test-button'),
-    saveButton: qs('#save-button'),
-    keyOk: qs('#key-ok'),
-    keyOkMessage: qs('#key-ok-message'),
-    keyError: qs('#key-error'),
+    testButton: qs('#test-key-button'),
+    testSpinner: qs('#test-spinner'),
+    testLabel: qs('#test-label'),
+    saveButton: qs('#save-key-button'),
+    keyOk: qs('#api-key-success'),
+    keyOkMessage: qs('#api-key-success-message'),
+    keyError: qs('#api-key-error'),
     rootsList: qs('#roots-list'),
     environmentName: qs('#environment-name'),
     pingButton: qs('#ping-button'),
@@ -32,7 +32,6 @@ const renderDynamic = () => {
   update.roots(elements, model.getRoots());
   update.testButton(elements, false);
   update.keyVisibility(elements, keyVisible);
-  refreshIcons();
 };
 
 const handleTheme = () => {
@@ -45,7 +44,6 @@ const handleLanguage = () => model.changeLanguage(elements.languageSelect.value)
 const handleToggleKey = () => {
   keyVisible = !keyVisible;
   update.keyVisibility(elements, keyVisible);
-  refreshIcons();
 };
 
 const handleSave = () => {
@@ -70,7 +68,6 @@ const handleTest = async () => {
     update.message(elements, 'error', t('settings.testFailed', { message: error.message }));
   }
   update.testButton(elements, false);
-  refreshIcons();
 };
 
 const handlePing = async () => {
@@ -78,7 +75,7 @@ const handlePing = async () => {
     const milliseconds = await model.pingEnvironment();
     emit('toast', { message: t('settings.pingOk', { env: model.getEnvironmentName(), ms: milliseconds }), icon: 'plug-zap' });
   } catch (error) {
-    emit('toast', { message: t('settings.pingFailed', { message: error.message }), icon: 'alert-triangle' });
+    emit('toast', { message: t('settings.pingFailed', { message: error.message }), icon: 'triangle-alert' });
   }
 };
 
@@ -96,14 +93,19 @@ const bindEvents = () => {
   on('language:changed', renderDynamic);
 };
 
-const init = () => {
-  render.page(qs('#view-settings'));
-  queryElements();
-  bindEvents();
+const renderStored = () => {
   update.theme(model.getTheme());
   update.fields(elements, { theme: model.getTheme(), language: model.getLanguage(), apiKey: model.getApiKey() });
+  update.models(elements, model.getModelId());
+};
+
+const init = () => {
+  queryElements();
+  bindEvents();
+  renderStored();
   update.environment(elements, model.getEnvironmentName());
   renderDynamic();
+  on('storage:ready', renderStored);
 };
 
 export { init };

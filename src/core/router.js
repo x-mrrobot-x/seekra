@@ -9,8 +9,8 @@ let currentTab = 'search';
 const queryElements = () => {
   elements = {
     views: qsa('.view'),
-    navButtons: qsa('#nav button'),
-    navBar: qs('#nav-bar'),
+    navButtons: qsa('#app-nav .nav-tab'),
+    navBar: qs('#nav-indicator'),
   };
 };
 
@@ -22,8 +22,8 @@ const moveNavBar = () => {
 
 const navigate = (view, tab = currentTab) => {
   currentTab = tab;
-  elements.views.forEach((element) => element.classList.toggle('on', element.id === `view-${view}`));
-  elements.navButtons.forEach((button) => button.classList.toggle('on', button.dataset.tab === tab));
+  elements.views.forEach((element) => element.classList.toggle('active', element.id === `${view}-view`));
+  elements.navButtons.forEach((button) => button.classList.toggle('active', button.dataset.tab === tab));
   moveNavBar();
   emit('route:changed', { view, tab });
 };

@@ -1,4 +1,4 @@
-import { createExecutionQueue } from '../execution-queue.js';
+import { createExecutionQueue, PARALLEL_JOBS } from '../execution-queue.js';
 import { parseCommand } from '../../shared/utils/protocol.js';
 import { emit } from '../event-bus.js';
 import { handlers } from './web.mock.js';
@@ -18,17 +18,17 @@ const run = async (job) => {
   }
 };
 
-const queue = createExecutionQueue(run);
+const queue = createExecutionQueue(run, { concurrency: PARALLEL_JOBS });
 
 const execute = (command, options) => queue.push(command, options);
-const read = (path) => Promise.resolve(localStorage.getItem(`nexus_file:${path}`) || '');
+const read = (path) => Promise.resolve(localStorage.getItem(`seekra_file:${path}`) || '');
 const write = (path, content) => {
-  localStorage.setItem(`nexus_file:${path}`, content);
+  localStorage.setItem(`seekra_file:${path}`, content);
   return Promise.resolve();
 };
 const notify = (message) => emit('toast', { message, icon: 'info' });
 const exit = () => window.close();
-const getVariable = (variable) => localStorage.getItem(`nexus_var:${variable}`);
+const getVariable = (variable) => localStorage.getItem(`seekra_var:${variable}`);
 const clear = () => queue.clear();
 const size = () => queue.size();
 

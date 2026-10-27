@@ -65,7 +65,9 @@
   "ai": {
     "prompt": {
       "title": "Describe what you want to find",
-      "description": "Write in natural language — type, size, date, folder. The AI generates the command and <b>NEXUS validates it before running</b>. Nothing runs without your confirmation."
+      "descriptionStart": "Write in natural language — type, size, date, folder. The AI generates the command and ",
+      "descriptionStrong": "SEEKRA validates it before running",
+      "descriptionEnd": ". Nothing runs without your confirmation."
     },
     "examples": {
       "pdf": {
@@ -102,10 +104,10 @@
     "validatedLocal": "validated · local demo",
     "errors": {
       "noKey": "⚠️ No Gemini key configured.",
-      "noKeyHint": "Add your key in <b>Settings → AI — Gemini</b> to generate commands with AI.",
-      "rejected": "⛔ Command rejected by NEXUS validation: <b>'{{reason}}'</b>.",
-      "rejectedHint": "The AI interprets. NEXUS validates. Nothing runs without passing the allowlist.",
-      "failed": "⚠️ Failed to reach Gemini: <b>'{{message}}'</b>",
+      "noKeyHint": "Add your key in <strong>Settings → AI — Gemini</strong> to generate commands with AI.",
+      "rejected": "⛔ Command rejected by SEEKRA validation: <strong>'{{reason}}'</strong>.",
+      "rejectedHint": "The AI interprets. SEEKRA validates. Nothing runs without passing the allowlist.",
+      "failed": "⚠️ Failed to reach Gemini: <strong>'{{message}}'</strong>",
       "failedHint": "Check the key in Settings, your connection, or use the local interpreter.",
       "useLocal": "Use local interpreter (demo, no API)",
       "notUnderstood": "⚠️ I did not understand. Rephrase with a type, size or folder.",
@@ -203,7 +205,8 @@
     "save": "Save",
     "test": "Test",
     "testing": "Testing…",
-    "privacy": "<b>Privacy:</b> only your text description is sent to Gemini to generate the command. No file content leaves the device.",
+    "privacyLabel": "Privacy:",
+    "privacyText": "only your text description is sent to Gemini to generate the command. No file content leaves the device.",
     "saved": "Settings saved ('{{model}}').",
     "keySaved": "Gemini key saved",
     "noKey": "Enter and save the key before testing.",

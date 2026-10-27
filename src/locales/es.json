@@ -65,7 +65,9 @@
   "ai": {
     "prompt": {
       "title": "Describe lo que quieres encontrar",
-      "description": "Escribe en lenguaje natural: tipo, tamaño, fecha, carpeta. La IA genera el comando y <b>NEXUS lo valida antes de ejecutar</b>. Nada se ejecuta sin tu confirmación."
+      "descriptionStart": "Escribe en lenguaje natural: tipo, tamaño, fecha, carpeta. La IA genera el comando y ",
+      "descriptionStrong": "SEEKRA lo valida antes de ejecutar",
+      "descriptionEnd": ". Nada se ejecuta sin tu confirmación."
     },
     "examples": {
       "pdf": {
@@ -102,10 +104,10 @@
     "validatedLocal": "validado · demo local",
     "errors": {
       "noKey": "⚠️ No hay ninguna clave de Gemini configurada.",
-      "noKeyHint": "Registra tu clave en <b>Ajustes → IA — Gemini</b> para generar comandos con IA.",
-      "rejected": "⛔ Comando rechazado por la validación de NEXUS: <b>'{{reason}}'</b>.",
-      "rejectedHint": "La IA interpreta. NEXUS valida. Nada se ejecuta sin pasar por la allowlist.",
-      "failed": "⚠️ Error de comunicación con Gemini: <b>'{{message}}'</b>",
+      "noKeyHint": "Registra tu clave en <strong>Ajustes → IA — Gemini</strong> para generar comandos con IA.",
+      "rejected": "⛔ Comando rechazado por la validación de SEEKRA: <strong>'{{reason}}'</strong>.",
+      "rejectedHint": "La IA interpreta. SEEKRA valida. Nada se ejecuta sin pasar por la allowlist.",
+      "failed": "⚠️ Error de comunicación con Gemini: <strong>'{{message}}'</strong>",
       "failedHint": "Revisa la clave en Ajustes, tu conexión, o usa el intérprete local.",
       "useLocal": "Usar intérprete local (demo, sin API)",
       "notUnderstood": "⚠️ No lo entendí. Reformula indicando tipo, tamaño o carpeta.",
@@ -203,7 +205,8 @@
     "save": "Guardar",
     "test": "Probar",
     "testing": "Probando…",
-    "privacy": "<b>Privacidad:</b> solo tu descripción en texto se envía a Gemini para generar el comando. Ningún contenido de archivos sale del dispositivo.",
+    "privacyLabel": "Privacidad:",
+    "privacyText": "solo tu descripción en texto se envía a Gemini para generar el comando. Ningún contenido de archivos sale del dispositivo.",
     "saved": "Configuración guardada ('{{model}}').",
     "keySaved": "Clave de Gemini guardada",
     "noKey": "Introduce y guarda la clave antes de probar.",

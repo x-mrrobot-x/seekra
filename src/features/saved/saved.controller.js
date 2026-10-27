@@ -1,8 +1,7 @@
 import { qs } from '../../shared/utils/dom.js';
 import { emit, on } from '../../core/event-bus.js';
-import { refreshIcons } from '../../shared/components/icon.js';
 import * as model from './saved.model.js';
-import { render, update } from './saved.view.js';
+import { update } from './saved.view.js';
 
 let elements = null;
 
@@ -24,7 +23,6 @@ const handleFolderClick = (event) => {
 
 const refresh = () => {
   update.lists(elements, model.getQueries(), model.getFolders());
-  refreshIcons();
 };
 
 const bindEvents = () => {
@@ -37,9 +35,9 @@ const bindEvents = () => {
 };
 
 const init = () => {
-  render.page(qs('#view-saved'), model.getQueries(), model.getFolders());
   queryElements();
   bindEvents();
+  refresh();
 };
 
 export { init };

@@ -15,7 +15,7 @@
   transition: transform .38s var(--spring),background .35s;
 }
 
-.sheet.on {
+.sheet.open {
   transform: translate(-50%,0);
 }
 
@@ -51,7 +51,7 @@
   filter: drop-shadow(0 0 1.4rem rgba(53,221,245,.5));
 }
 
-.sheet-title-row {
+.sheet-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -59,23 +59,25 @@
   gap: var(--space-sm);
 }
 
-.sheet-title-row b {
+.sheet-title {
   font-size: var(--font-md);
   word-break: break-all;
 }
 
 .sheet-close {
+  background: none;
+  border: 0;
   cursor: pointer;
   color: var(--muted);
   flex-shrink: 0;
   padding: var(--space-xxs);
 }
 
-.key-value-last {
-  border: 0;
-}
-
 .hash-value {
+  background: none;
+  border: 0;
+  font: inherit;
+  text-align: inherit;
   color: var(--accent);
   cursor: pointer;
 }

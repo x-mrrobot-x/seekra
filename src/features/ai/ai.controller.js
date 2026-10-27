@@ -1,10 +1,8 @@
-import './ai.css';
 import { qs } from '../../shared/utils/dom.js';
 import { emit, on } from '../../core/event-bus.js';
 import { t } from '../../core/i18n.js';
-import { refreshIcons } from '../../shared/components/icon.js';
 import * as model from './ai.model.js';
-import { render, update, helpers } from './ai.view.js';
+import { update, helpers } from './ai.view.js';
 
 let elements = null;
 let state = 'hidden';
@@ -12,29 +10,33 @@ let lastPrompt = '';
 
 const queryElements = () => {
   elements = {
-    promptZone: qs('#prompt-zone'),
+    promptZone: qs('#ai-prompt'),
     panel: qs('#ai-panel'),
     title: qs('#ai-title'),
-    body: qs('#ai-body'),
+    titleText: qs('#ai-title-text'),
+    body: qs('#ai-result'),
     command: qs('#ai-command'),
-    explain: qs('#ai-explain'),
+    explain: qs('#ai-explanation'),
     chips: qs('#ai-chips'),
-    edit: qs('#ai-edit'),
-    copy: qs('#ai-copy'),
-    run: qs('#ai-run'),
+    edit: qs('#ai-edit-button'),
+    copy: qs('#ai-copy-button'),
+    run: qs('#ai-run-button'),
     loading: qs('#ai-loading'),
     error: qs('#ai-error'),
+    errorMessage: qs('#ai-error-message'),
+    errorHint: qs('#ai-error-hint'),
+    errorHintGroup: qs('#ai-error-hint-group'),
+    errorDemoGroup: qs('#ai-error-demo-group'),
   };
 };
 
 const setState = (value) => {
   state = value;
   update.state(elements, value);
-  refreshIcons();
 };
 
-const showError = (html, withDemo) => {
-  update.error(elements, html, withDemo);
+const showError = (content, withDemo) => {
+  update.error(elements, content, withDemo);
   setState('error');
 };
 
@@ -50,7 +52,7 @@ const generate = async ({ prompt }) => {
   }
   lastPrompt = prompt;
   if (!model.hasApiKey()) {
-    showError(helpers.noKeyHtml(), true);
+    showError(helpers.noKey(), true);
     return;
   }
   setState('loading');
@@ -58,21 +60,21 @@ const generate = async ({ prompt }) => {
   try {
     const result = await model.generateCommand(prompt);
     const reason = model.validateCommand(result.command);
-    if (reason) showError(helpers.rejectedHtml(reason), true);
+    if (reason) showError(helpers.rejected(reason), true);
     else showResult(result, 'ai.validated');
   } catch (error) {
-    showError(helpers.failedHtml(error.message), true);
+    showError(helpers.failed(error.message), true);
   }
 };
 
 const interpretLocally = () => {
   const result = model.interpretLocally(lastPrompt);
   if (!result) {
-    showError(helpers.notUnderstoodHtml(), false);
+    showError(helpers.notUnderstood(), false);
     return;
   }
   const reason = model.validateCommand(result.command);
-  if (reason) showError(helpers.localRejectedHtml(reason), false);
+  if (reason) showError(helpers.localRejected(reason), false);
   else showResult({ ...result, explanation: `${result.explanation} ${t('ai.local.suffix')}` }, 'ai.validatedLocal');
 };
 
@@ -86,7 +88,7 @@ const handleCopy = async () => {
     await navigator.clipboard.writeText(elements.command.textContent);
     emit('toast', { message: t('ai.copied'), icon: 'copy' });
   } catch {
-    emit('toast', { message: t('ai.copyFailed'), icon: 'alert-triangle' });
+    emit('toast', { message: t('ai.copyFailed'), icon: 'triangle-alert' });
   }
 };
 
@@ -99,7 +101,7 @@ const handleRun = () =>
   emit('query:run', { type: 'ia', command: elements.command.textContent.trim(), chips: [t('chips.ai')] });
 
 const handleErrorClick = (event) => {
-  if (event.target.closest('#ai-demo')) interpretLocally();
+  if (event.target.closest('#ai-demo-button')) interpretLocally();
 };
 
 const handleMode = ({ mode }) => {
@@ -122,7 +124,6 @@ const bindEvents = () => {
 };
 
 const init = () => {
-  render.slots(qs('#ai-prompt-slot'), qs('#ai-panel-slot'));
   queryElements();
   bindEvents();
   update.state(elements, 'hidden');

@@ -29,13 +29,15 @@
   gap: var(--space-xs);
 }
 
-.mode-switch button.on {
+.mode-switch button.active {
   color: #04121a;
   font-weight: 700;
 }
 
 .mode-switch-slider {
   position: absolute;
+  left: var(--space-xxs);
+  width: calc((100% - 2 * var(--space-xxs)) / 3);
   top: 0.5rem;
   bottom: 0.5rem;
   border-radius: var(--radius-sm);
@@ -78,9 +80,15 @@
   font-family: var(--sans);
   min-width: 0;
   height: 4.2rem;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
-.search-box input.mono {
+.search-box input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.search-box input.monospace {
   font-family: var(--mono);
   font-size: var(--font-md);
 }
@@ -147,11 +155,12 @@
   font-size: var(--font-sm);
 }
 
-.scope {
+.search-scope {
   margin-bottom: var(--space-md);
+  animation: none;
 }
 
-.scope .scope-label {
+.search-scope .scope-label {
   font-size: var(--font-xxs);
   text-transform: uppercase;
   letter-spacing: 0.12rem;
@@ -160,6 +169,7 @@
 }
 
 .overview-stats {
+  list-style: none;
   display: flex;
   gap: var(--space-sm);
   margin-top: var(--space-md);
@@ -178,7 +188,7 @@
   text-align: center;
 }
 
-.stat-card b {
+.stat-value {
   font-size: var(--font-lg);
   display: block;
   background: linear-gradient(90deg,var(--accent),var(--accent2));
@@ -187,7 +197,7 @@
   color: transparent;
 }
 
-.stat-card span {
+.stat-label {
   font-size: var(--font-xxs);
   line-height: 1.4;
   color: var(--muted);

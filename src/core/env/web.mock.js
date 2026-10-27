@@ -12,7 +12,7 @@ const FILES = [
   ['contrato_aluguel.pdf', '/storage/emulated/0/Documents', 6400000, 20],
   ['relatorio_final.pdf', '/storage/emulated/0/Download', 9100000, 2],
   ['notas_reuniao.txt', '/storage/emulated/0/Documents', 4200, 5],
-  ['app_config.json', '/storage/emulated/0/Android/data/nexus', 56000, 30],
+  ['app_config.json', '/storage/emulated/0/Android/data/seekra', 56000, 30],
   ['dados_backup.json', '/storage/emulated/0/Download/Backups', 2500000, 15],
   ['fotos_familia.zip', '/storage/emulated/0/Download', 524000000, 90],
   ['BACKUP_2025.tar.gz', '/storage/0123-4567/Backup', 2140000000, 400],

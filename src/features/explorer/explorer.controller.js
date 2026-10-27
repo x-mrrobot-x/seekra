@@ -1,12 +1,10 @@
-import './explorer.css';
 import { qs, qsa } from '../../shared/utils/dom.js';
 import { emit, on } from '../../core/event-bus.js';
 import { t } from '../../core/i18n.js';
 import { navigate } from '../../core/router.js';
-import { refreshIcons } from '../../shared/components/icon.js';
 import { HIGHLIGHT_DURATION } from './explorer.config.js';
 import * as model from './explorer.model.js';
-import { render, update, helpers } from './explorer.view.js';
+import { update, helpers } from './explorer.view.js';
 
 let elements = null;
 let highlightTimer = null;
@@ -17,12 +15,14 @@ const queryElements = () => {
     volumeSwitch: qs('#volume-switch'),
     volumeButtons: qsa('#volume-switch button'),
     slider: qs('#volume-slider'),
-    volumeInfo: qs('#volume-info'),
-    crumbs: qs('#crumbs'),
+    volumeIcon: qs('#volume-icon'),
+    volumeName: qs('#volume-name'),
+    volumeFree: qs('#volume-free'),
+    crumbs: qs('#breadcrumbs'),
     list: qs('#explorer-list'),
-    searchHere: qs('#search-here'),
-    favorite: qs('#favorite'),
-    backBtn: qs('#back-btn'),
+    searchHere: qs('#search-here-button'),
+    favorite: qs('#favorite-button'),
+    backBtn: qs('#parent-folder-button'),
   };
 };
 
@@ -43,7 +43,12 @@ const renderDirectory = async () => {
   } catch (error) {
     update.error(elements, error.message);
   }
-  refreshIcons();
+};
+
+const restoreVolumes = () => {
+  if (!model.restoreVolumes()) return;
+  emit('volumes:loaded', { volumes: model.getVolumes() });
+  renderHeader();
 };
 
 const loadVolumes = async () => {
@@ -53,7 +58,7 @@ const loadVolumes = async () => {
     renderHeader();
     if (active) renderDirectory();
   } catch (error) {
-    emit('toast', { message: t('settings.volumesFailed', { message: error.message }), icon: 'alert-triangle' });
+    emit('toast', { message: t('settings.volumesFailed', { message: error.message }), icon: 'triangle-alert' });
   }
 };
 
@@ -133,10 +138,9 @@ const bindEvents = () => {
 };
 
 const init = () => {
-  render.page(qs('#view-explorer'));
   queryElements();
   bindEvents();
   renderHeader();
 };
 
-export { init, loadVolumes };
+export { init, restoreVolumes, loadVolumes };

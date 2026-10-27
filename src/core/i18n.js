@@ -13,6 +13,7 @@ const LANGUAGES = [
 ];
 
 const DEFAULT_LANGUAGE = 'pt';
+const TRANSLATABLE = '[data-i18n], [data-i18n-placeholder]';
 
 let language = DEFAULT_LANGUAGE;
 
@@ -27,13 +28,26 @@ const t = (key, params = {}) => {
   return typeof value === 'string' ? interpolate(value, params) : key;
 };
 
+const translateElement = (element) => {
+  const { i18n, i18nPlaceholder } = element.dataset;
+  if (i18n) element.textContent = t(i18n);
+  if (i18nPlaceholder) element.placeholder = t(i18nPlaceholder);
+};
+
 const applyTranslations = (root = document) => {
-  qsa('[data-i18n]', root).forEach((element) => {
-    element.textContent = t(element.dataset.i18n);
-  });
-  qsa('[data-i18n-html]', root).forEach((element) => {
-    element.innerHTML = t(element.dataset.i18nHtml);
-  });
+  if (root.dataset) translateElement(root);
+  qsa(TRANSLATABLE, root).forEach(translateElement);
+};
+
+// Troca a chave de um elemento em runtime; o idioma passa a acompanhá-la em applyTranslations.
+const translate = (element, key) => {
+  element.dataset.i18n = key;
+  translateElement(element);
+};
+
+const translatePlaceholder = (element, key) => {
+  element.dataset.i18nPlaceholder = key;
+  translateElement(element);
 };
 
 const getLanguage = () => language;
@@ -49,4 +63,4 @@ const setLanguage = (code) => {
   emit('language:changed', { language });
 };
 
-export { LANGUAGES, init, t, applyTranslations, getLanguage, setLanguage };
+export { LANGUAGES, init, t, translate, translatePlaceholder, applyTranslations, getLanguage, setLanguage };

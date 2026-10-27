@@ -65,7 +65,9 @@
   "ai": {
     "prompt": {
       "title": "Descreva o que deseja encontrar",
-      "description": "Escreva em linguagem natural — tipo, tamanho, data, pasta. A IA gera o comando e o <b>NEXUS valida antes de executar</b>. Nada roda sem sua confirmação."
+      "descriptionStart": "Escreva em linguagem natural — tipo, tamanho, data, pasta. A IA gera o comando e o ",
+      "descriptionStrong": "SEEKRA valida antes de executar",
+      "descriptionEnd": ". Nada roda sem sua confirmação."
     },
     "examples": {
       "pdf": {
@@ -102,10 +104,10 @@
     "validatedLocal": "validado · demo local",
     "errors": {
       "noKey": "⚠️ Nenhuma chave Gemini configurada.",
-      "noKeyHint": "Cadastre sua chave em <b>Ajustes → IA — Gemini</b> para gerar comandos com IA.",
-      "rejected": "⛔ Comando rejeitado pela validação do NEXUS: <b>'{{reason}}'</b>.",
-      "rejectedHint": "A IA interpreta. O NEXUS valida. Nada executa sem passar pela allowlist.",
-      "failed": "⚠️ Falha na comunicação com o Gemini: <b>'{{message}}'</b>",
+      "noKeyHint": "Cadastre sua chave em <strong>Ajustes → IA — Gemini</strong> para gerar comandos com IA.",
+      "rejected": "⛔ Comando rejeitado pela validação do SEEKRA: <strong>'{{reason}}'</strong>.",
+      "rejectedHint": "A IA interpreta. O SEEKRA valida. Nada executa sem passar pela allowlist.",
+      "failed": "⚠️ Falha na comunicação com o Gemini: <strong>'{{message}}'</strong>",
       "failedHint": "Verifique a chave em Ajustes, sua conexão, ou use o interpretador local.",
       "useLocal": "Usar interpretador local (demo, sem API)",
       "notUnderstood": "⚠️ Não entendi. Reformule indicando tipo, tamanho ou pasta.",
@@ -203,7 +205,8 @@
     "save": "Salvar",
     "test": "Testar",
     "testing": "Testando…",
-    "privacy": "<b>Privacidade:</b> apenas sua descrição em texto é enviada ao Gemini para gerar o comando. Nenhum conteúdo de arquivo sai do dispositivo.",
+    "privacyLabel": "Privacidade:",
+    "privacyText": "apenas sua descrição em texto é enviada ao Gemini para gerar o comando. Nenhum conteúdo de arquivo sai do dispositivo.",
     "saved": "Configuração salva ('{{model}}').",
     "keySaved": "Chave Gemini salva",
     "noKey": "Informe e salve a chave antes de testar.",

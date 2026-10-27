@@ -1,11 +1,9 @@
-import './results.css';
 import { qs } from '../../shared/utils/dom.js';
 import { emit, on } from '../../core/event-bus.js';
 import { navigate } from '../../core/router.js';
 import { name as environmentName } from '@env';
-import { refreshIcons } from '../../shared/components/icon.js';
 import * as model from './results.model.js';
-import { render, update, helpers } from './results.view.js';
+import { update, helpers } from './results.view.js';
 
 let elements = null;
 let lastDuration = null;
@@ -13,11 +11,16 @@ let hasResults = false;
 
 const queryElements = () => {
   elements = {
-    backLink: qs('#back-link'),
+    backLink: qs('#new-search-button'),
     count: qs('#results-count'),
+    countValue: qs('#results-count-value'),
+    countLabel: qs('#results-count-label'),
     time: qs('#results-time'),
+    timeValue: qs('#results-time-value'),
     state: qs('#results-state'),
-    progress: qs('#progress'),
+    spinner: qs('#results-spinner'),
+    stateText: qs('#results-state-text'),
+    progress: qs('#results-progress'),
     chips: qs('#results-chips'),
     list: qs('#results-list'),
   };
@@ -28,31 +31,28 @@ const showResults = (files, duration) => {
   lastDuration = duration;
   update.summary(elements, files.length, duration);
   update.list(elements, files);
-  refreshIcons();
   emit('results:rendered', { count: files.length, duration });
 };
 
-const showError = (html) => {
+const showError = (content) => {
   hasResults = false;
-  update.error(elements, html);
-  refreshIcons();
+  update.error(elements, content);
 };
 
 const handleRun = async (query) => {
   navigate('results', 'search');
   update.loading(elements, query.chips, environmentName);
-  refreshIcons();
   try {
     const outcome = await model.run(query);
     if (outcome) showResults(outcome.files, outcome.duration);
   } catch (error) {
-    showError(helpers.failureHtml(error.message));
+    showError(helpers.failure(error.message));
   }
 };
 
 const handleInvalid = ({ message }) => {
   navigate('results', 'search');
-  showError(helpers.invalidRegexHtml(message));
+  showError(helpers.invalidRegex(message));
 };
 
 const handleListClick = (event) => {
@@ -62,14 +62,13 @@ const handleListClick = (event) => {
 
 const handleChipClick = (event) => {
   const remove = event.target.closest('[data-remove-chip]');
-  if (remove) remove.parentElement.remove();
+  if (remove) remove.closest('li').remove();
 };
 
 const handleLanguage = () => {
   if (!hasResults) return;
   update.summary(elements, model.getFiles().length, lastDuration);
   update.list(elements, model.getFiles());
-  refreshIcons();
 };
 
 const bindEvents = () => {
@@ -85,7 +84,6 @@ const bindEvents = () => {
 };
 
 const init = () => {
-  render.page(qs('#view-results'));
   queryElements();
   bindEvents();
 };

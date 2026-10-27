@@ -1,4 +1,4 @@
-.aurora {
+.aurora-background {
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -6,7 +6,7 @@
   z-index: 0;
 }
 
-.aurora::before, .aurora::after {
+.aurora-background::before, .aurora-background::after {
   content: '';
   position: absolute;
   width: 60vmax;
@@ -17,20 +17,20 @@
   animation: drift 26s ease-in-out infinite alternate;
 }
 
-.aurora::before {
+.aurora-background::before {
   background: #0e7490;
   top: -25vmax;
   left: -15vmax;
 }
 
-.aurora::after {
+.aurora-background::after {
   background: #5b3df0;
   bottom: -30vmax;
   right: -15vmax;
   animation-delay: -13s;
 }
 
-.grain {
+.grain-overlay {
   position: fixed;
   inset: 0;
   z-index: 1;
@@ -40,7 +40,7 @@
   background-size: 0.3rem 0.3rem;
 }
 
-.phone {
+.app-shell {
   position: relative;
   z-index: 2;
   width: 100%;
@@ -50,7 +50,16 @@
   flex-direction: column;
 }
 
-header {
+.booting .app-shell {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.booting * {
+  transition: none!important;
+}
+
+.app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -58,13 +67,13 @@ header {
   flex-shrink: 0;
 }
 
-.logo {
+.app-logo {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
 }
 
-.logo .mark {
+.logo-mark {
   width: 3.4rem;
   height: 3.4rem;
   border-radius: var(--radius-sm);
@@ -75,27 +84,26 @@ header {
   box-shadow: 0 0.4rem 1.8rem rgba(53,221,245,.35);
 }
 
-.logo .mark svg {
+.logo-mark svg {
   width: var(--icon-md);
   height: var(--icon-md);
   color: #04121a;
 }
 
-.logo b {
+.logo-name {
   font-size: var(--font-xl);
   letter-spacing: 0.3rem;
   font-weight: 700;
 }
 
-.logo b i {
-  font-style: normal;
+.logo-highlight {
   background: linear-gradient(90deg,var(--accent),var(--accent2));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-main {
+.app-main {
   flex: 1;
   position: relative;
   overflow: hidden;
@@ -112,7 +120,7 @@ main {
   transition: opacity .28s var(--ease),transform .28s var(--ease);
 }
 
-.view.on {
+.view.active {
   opacity: 1;
   transform: none;
   pointer-events: auto;
@@ -122,8 +130,9 @@ main {
   width: 0;
 }
 
-.section-label {
+.section-heading {
   font-size: var(--font-xxs);
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.16rem;
   color: var(--muted);
@@ -133,20 +142,20 @@ main {
   gap: var(--space-xs);
 }
 
-.section-label::after {
+.section-heading::after {
   content: '';
   flex: 1;
   height: 0.1rem;
   background: linear-gradient(90deg,var(--border),transparent);
 }
 
-.view-fixed {
+.list-view {
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-.view-fixed > :not(.scroll-list) {
+.list-view > :not(.scroll-list) {
   flex-shrink: 0;
 }
 
@@ -154,6 +163,9 @@ main {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
 }
 
 .scroll-list > * {
@@ -164,11 +176,11 @@ main {
   width: 0;
 }
 
-.view-fixed .back-link {
+.list-view .back-button {
   align-self: flex-start;
 }
 
-nav {
+.app-nav {
   flex-shrink: 0;
   display: flex;
   justify-content: space-around;
@@ -181,7 +193,7 @@ nav {
   transition: background .35s;
 }
 
-nav button {
+.nav-tab {
   background: none;
   border: 0;
   color: var(--muted);
@@ -197,31 +209,31 @@ nav button {
   position: relative;
 }
 
-nav button .nav-icon {
+.nav-tab .nav-icon {
   display: flex;
   transition: transform .25s var(--spring);
   opacity: .6;
 }
 
-nav button .nav-icon svg {
+.nav-tab .nav-icon svg {
   width: 2rem;
   height: 2rem;
 }
 
-nav button.on {
+.nav-tab.active {
   color: var(--accent);
 }
 
-nav button.on .nav-icon {
+.nav-tab.active .nav-icon {
   transform: translateY(-0.2rem);
   opacity: 1;
 }
 
-nav button.on .nav-icon svg {
+.nav-tab.active .nav-icon svg {
   filter: drop-shadow(0 0 0.8rem rgba(53,221,245,.7));
 }
 
-nav .nav-bar {
+.nav-indicator {
   position: absolute;
   top: 0;
   height: 0.3rem;
@@ -231,6 +243,6 @@ nav .nav-bar {
   box-shadow: 0 0.2rem 1.2rem rgba(53,221,245,.5);
 }
 
-.section-label-first {
+.view > .section-heading:first-child {
   margin-top: var(--space-xs);
 }

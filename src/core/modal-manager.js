@@ -14,15 +14,15 @@ const register = (name, { element, onClose = () => {} }) => {
 
 const open = (name) => {
   active = name;
-  modals.get(name).element.classList.add('on');
-  elements.overlay.classList.add('on');
+  modals.get(name).element.classList.add('open');
+  elements.overlay.classList.add('open');
 };
 
 const close = () => {
   if (!active) return;
   const { element, onClose } = modals.get(active);
-  element.classList.remove('on');
-  elements.overlay.classList.remove('on');
+  element.classList.remove('open');
+  elements.overlay.classList.remove('open');
   active = null;
   onClose();
 };

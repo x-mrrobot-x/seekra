@@ -18,7 +18,7 @@ import android.net.Uri;
 import android.util.Base64;
 import android.webkit.MimeTypeMap;
 
-String DIR = tasker.getVariable("NEXUS_DIR");
+String DIR = tasker.getVariable("SEEKRA_DIR");
 String RID = tasker.getVariable("rid");
 String ARGS = tasker.getVariable("args");
 String DATA = DIR + "/data";
@@ -282,9 +282,9 @@ String[] runShell(List rs) {
       if (i > 0) env.append("\n");
       env.append((String) rs.get(i));
     }
-    ProcessBuilder pb = new ProcessBuilder(new String[] { "sh", DIR + "/nexus.sh", input.getPath() });
+    ProcessBuilder pb = new ProcessBuilder(new String[] { "sh", DIR + "/seekra.sh", input.getPath() });
     pb.directory(new File(DIR));
-    pb.environment().put("NEXUS_ROOTS", env.toString());
+    pb.environment().put("SEEKRA_ROOTS", env.toString());
     Process pr = pb.start();
     pr.getOutputStream().close();
     String out = new String(readAll(pr.getInputStream()), "UTF-8");

@@ -11,7 +11,7 @@ const getModelId = () => {
 
 const hasApiKey = () => Boolean(storage.get('geminiKey', ''));
 
-const systemPrompt = () => `Você é o interpretador de buscas do app NEXUS (Android, backend shell do Tasker).
+const systemPrompt = () => `Você é o interpretador de buscas do app SEEKRA (Android, backend shell do Tasker).
 Converta a solicitação do usuário em UM objeto JSON estrito (sem markdown, sem texto fora do JSON):
 {
   "intent": "search_files",

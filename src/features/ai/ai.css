@@ -1,9 +1,10 @@
-.prompt-zone {
-  margin-bottom: var(--space-md);
+.ai-panel {
   animation: fadeup .3s var(--ease);
 }
 
-.prompt-card {
+.ai-prompt {
+  margin-bottom: var(--space-md);
+  animation: fadeup .3s var(--ease);
   background: linear-gradient(150deg,rgba(139,108,255,.1),rgba(53,221,245,.05));
   border: 0.1rem solid rgba(139,108,255,.3);
   border-radius: var(--radius-xl);
@@ -12,7 +13,7 @@
   overflow: hidden;
 }
 
-.prompt-card::before {
+.ai-prompt::before {
   content: '';
   position: absolute;
   top: -4rem;
@@ -23,7 +24,7 @@
   background: radial-gradient(circle,rgba(139,108,255,.25),transparent 70%);
 }
 
-.prompt-card h2 {
+.ai-prompt h2 {
   font-size: var(--font-lg);
   display: flex;
   align-items: center;
@@ -31,20 +32,22 @@
   margin-bottom: var(--space-xs);
 }
 
-.prompt-card p {
+.ai-prompt p {
   font-size: var(--font-sm);
   color: var(--muted);
   line-height: 1.6;
   margin-bottom: var(--space-sm);
 }
 
-.prompt-card .prompt-examples {
+.prompt-examples {
+  list-style: none;
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
 }
 
 .command-box {
+  display: block;
   font-family: var(--mono);
   font-size: var(--font-sm);
   background: rgba(0,0,0,.4);
@@ -69,7 +72,7 @@
   margin-right: var(--space-xs);
 }
 
-.command-explain {
+.command-explanation {
   font-size: var(--font-sm);
   color: var(--muted);
   margin: var(--space-sm) 0;

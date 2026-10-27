@@ -1,8 +1,12 @@
 const DEFAULT_TIMEOUT = 30000;
+const DEFAULT_CONCURRENCY = 1;
+const PARALLEL_JOBS = 3;
 
-const createExecutionQueue = (run, { timeout = DEFAULT_TIMEOUT, onDrop = () => {} } = {}) => {
+// `key` identifica uma "pista": jobs com a mesma key nunca rodam ao mesmo tempo (e `replace`
+// cancela os da mesma key que ainda estão na fila). Jobs sem key só respeitam `concurrency`.
+const createExecutionQueue = (run, { timeout = DEFAULT_TIMEOUT, concurrency = DEFAULT_CONCURRENCY, onDrop = () => {} } = {}) => {
   const jobs = [];
-  let current = null;
+  const running = new Set();
   let counter = 0;
 
   const settle = (job, callback, value) => {
@@ -12,16 +16,15 @@ const createExecutionQueue = (run, { timeout = DEFAULT_TIMEOUT, onDrop = () => {
     callback(value);
   };
 
+  const isLaneBusy = (key) => key !== undefined && [...running].some((job) => job.key === key);
+
   const release = (job) => {
-    if (current !== job) return;
-    current = null;
+    if (!running.delete(job)) return;
     pump();
   };
 
-  const pump = () => {
-    if (current || !jobs.length) return;
-    const job = jobs.shift();
-    current = job;
+  const start = (job) => {
+    running.add(job);
     job.timer = setTimeout(() => {
       onDrop(job);
       settle(job, job.reject, new Error('tempo esgotado'));
@@ -33,6 +36,14 @@ const createExecutionQueue = (run, { timeout = DEFAULT_TIMEOUT, onDrop = () => {
         (error) => settle(job, job.reject, error),
       )
       .finally(() => release(job));
+  };
+
+  const pump = () => {
+    while (running.size < concurrency) {
+      const index = jobs.findIndex((job) => !isLaneBusy(job.key));
+      if (index === -1) return;
+      start(jobs.splice(index, 1)[0]);
+    }
   };
 
   const push = (command, { key, replace = false, timeout: jobTimeout = timeout } = {}) =>
@@ -56,9 +67,9 @@ const createExecutionQueue = (run, { timeout = DEFAULT_TIMEOUT, onDrop = () => {
     }
   };
 
-  const size = () => jobs.length + (current ? 1 : 0);
+  const size = () => jobs.length + running.size;
 
   return { push, clear, size };
 };
 
-export { createExecutionQueue };
+export { createExecutionQueue, PARALLEL_JOBS };

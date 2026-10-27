@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import { viteSingleFile } from 'vite-plugin-singlefile';
 import { fileURLToPath, URL } from 'node:url';
+import { iconSprite } from './scripts/icon-sprite.plugin.js';
 
 const resolvePath = (path) => fileURLToPath(new URL(path, import.meta.url));
 
@@ -14,7 +15,7 @@ export default defineConfig(({ mode }) => {
         '@env': resolvePath(`./src/core/env/${environment}.environment.js`),
       },
     },
-    plugins: [viteSingleFile()],
+    plugins: [iconSprite(), viteSingleFile()],
     build: {
       target: 'es2020',
       outDir: `dist`,
