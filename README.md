@@ -3,119 +3,104 @@
 > **Find anything. Your way.**
 > *Encontre qualquer coisa. Do seu jeito.*
 
-App WebView para o Tasker: busca de arquivos nos modos simples, regex e IA, mais um explorador de pastas, com o shell do Tasker como backend.
+Seekra é um aplicativo de busca e navegação de arquivos para Android. A interface é uma página web que roda em um WebView do [Tasker](https://tasker.joaoapps.com/), e as buscas são executadas pelo shell do aparelho, direto no armazenamento, sem indexação prévia.
 
-## Comandos
+## Recursos
+
+- **Três modos de busca**
+  - **Simples:** o nome contém o texto, sem diferenciar maiúsculas de minúsculas.
+  - **Regex:** expressão regular estendida (ERE) aplicada ao nome do arquivo.
+  - **IA:** descreva o que procura em linguagem natural; o Gemini converte o pedido em um comando `find` somente leitura, que é validado antes de rodar.
+- **Filtros:** tipo de arquivo (imagem, vídeo, áudio, documento ou código), tamanho mínimo (1, 100 ou 500 MB), período (últimos 7 ou 30 dias) e busca recursiva ou apenas na pasta.
+- **Escopo:** todos os volumes (memória interna e cartão SD) ou uma pasta específica escolhida no Explorar.
+- **Explorar:** navegação por pastas com trilha de caminho, alternância entre memória interna e cartão SD e espaço livre de cada volume.
+- **Salvas:** atalhos de consulta e pastas favoritas. Basta tocar em **Favoritar** no Explorar; a lista é gravada em `settings.json`.
+- **Ficha do arquivo:** caminho, tamanho, data, tipo, hash SHA-256 sob demanda, abrir com outro app, compartilhar e copiar o caminho.
+- **Ajustes:** tema claro ou escuro, idioma (Português, English, Español), chave e modelo do Gemini com teste de conexão, teste de execução do backend e volumes detectados.
+
+## Como funciona
 
 ```
-npm install          # instala tudo que está no package.json (use `npm ci` para seguir o lockfile à risca)
-npm run dev          # ambiente web (dados de demonstração); roda `npm run icons` antes
-npm run build        # dist/index.html (arquivo único, ambiente Tasker); roda `npm run icons` antes
-npm run build:web    # dist/index.html (arquivo único, ambiente web); roda `npm run icons` antes
-npm run preview      # serve o build web localmente
-npm run icons        # regenera icon.config.js a partir do HTML e do JS (ver "Ícones")
+WebView (HTML + JS)
+      │  window.Tasker.runTask
+      ▼
+Tasker · SK 02 - EXEC
+      ├── exec.bsh   (Java)  ping, volumes, read, write, hash, open, share
+      └── seekra.sh  (shell) search, ia, list
+      │
+      ▼  envelope JSON em base64 (%renv)
+WebView
 ```
 
-Requer Node `^20.19.0 || >=22.12.0` (exigência do Vite 8).
-Os dois builds gravam em `dist/` e cada um apaga o anterior: gere o de Tasker por último (ou copie o arquivo antes de rodar o outro).
+O JavaScript não monta comandos de shell. Ele envia à task `SK 02 - EXEC` um pedido simples (a operação na primeira linha e os parâmetros em linhas `chave=valor`) e recebe um envelope JSON de volta. Operações do sistema rodam em Java, no `exec.bsh`. Buscas e listagens rodam no `seekra.sh`, que recebe o pedido por um arquivo temporário, nunca pela linha de comando.
 
-## Ambientes
+## Requisitos
 
-O alias `@env` é resolvido em `vite.config.js` pelo modo de build:
+- Android com [Tasker](https://tasker.joaoapps.com/) e acesso ao armazenamento do aparelho.
+- Node.js `^20.19.0 || >=22.12.0` e npm, para gerar o build.
+- Opcional: chave de API do Google Gemini, para o modo IA.
 
-| modo    | arquivo                                  |
-|---------|------------------------------------------|
-| `web`   | `src/core/env/web.environment.js`        |
-| `tasker`| `src/core/env/tasker.environment.js`     |
+## Instalação
 
-Contrato dos dois arquivos: `name`, `read`, `write`, `execute`, `notify`, `exit`, `getVariable`, `clear`, `size`.
-`web.mock.js` (dados de demonstração) só entra no build web.
+```bash
+npm ci
+npm run build
+```
 
-## Estrutura
+O comando gera `dist/index.html`, um arquivo único com CSS, JavaScript e ícones embutidos.
+
+### Configuração do Tasker
+
+1. Copie para o aparelho o `dist/index.html` e a pasta `tasker/scripts/` (`seekra.sh` e `exec.bsh`).
+2. Importe o projeto `tasker/project/SEEKRA.prj.xml` no Tasker.
+3. Em **SK 01 - MAIN**, ajuste o caminho do arquivo lido para `%html` para onde está o seu `dist/index.html`.
+4. Em **SK 02 - EXEC**, ajuste a variável `%SEEKRA_DIR` para a pasta `tasker/scripts` do aparelho e cole o conteúdo de `exec.bsh` na ação *Java Code*. O código embutido no projeto exportado pode estar desatualizado em relação ao arquivo.
+5. Confira que **SK 02 - EXEC** está com *Collision Handling* = **Run Both Together**. O app dispara até 3 chamadas em paralelo e, no padrão (*Abort New Task*), as simultâneas seriam abortadas.
+6. Execute **SK 01 - MAIN**, abra **Ajustes** e toque em **Testar execução** para validar a comunicação com o Tasker.
+
+A task **SK 01 - MAIN** inclui uma ação de depuração que injeta o console Eruda (carregado de um CDN) no WebView. Remova-a para o uso diário.
+
+### Modo IA
+
+Em **Ajustes**, informe a chave de API do Gemini, escolha o modelo e use **Testar** e **Salvar**. A chave fica apenas no `settings.json` do aparelho, na pasta `data/` dentro de `%SEEKRA_DIR`.
+
+## Desenvolvimento
+
+`npm run dev` abre o app no navegador com dados de demonstração, sem precisar do Tasker.
+
+| Comando | O que faz |
+|---|---|
+| `npm run dev` | Servidor de desenvolvimento, ambiente web (dados de demonstração). |
+| `npm run build` | Gera `dist/index.html` para o Tasker. |
+| `npm run build:web` | Gera `dist/index.html` para o ambiente web. |
+| `npm run preview` | Serve localmente o build web. |
+| `npm run icons` | Regenera `icon.config.js` a partir do HTML e do JS. Os demais comandos já o executam antes. |
+
+Os dois builds gravam em `dist/` e o segundo apaga o primeiro. Gere o de Tasker por último, ou copie o arquivo antes.
+
+### Estrutura
 
 ```
 index.html
-src/core/app.css             entrada única do CSS (ordem do cascade), carregada por <link> no index.html
 src/
   main.js
-  core/                      app, event-bus, router, modal-manager, i18n, storage, api-adapter, execution-queue, env/
-  features/<nome>/           <nome>.model.js, .view.js, .controller.js e, quando a feature precisa, .config.js e .css
-  shared/utils|components|styles
-  locales/                   pt.json, en.json, es.json
-scripts/                     generate-icons.mjs (npm run icons) e icon-sprite.plugin.js (plugin do Vite)
-tasker/                      exec.bsh, seekra.sh e SETUP.md
+  core/           app, router, event bus, i18n, storage, fila de execução e ambientes (env/)
+  features/       search, ai, results, explorer, saved, settings, file-sheet
+  shared/         componentes, utilitários e estilos
+  locales/        pt.json, en.json, es.json
+scripts/          gerador de ícones e plugin de sprite do Vite
+tasker/           projeto Tasker, exec.bsh e seekra.sh
 ```
 
-Features: `search`, `ai`, `results`, `explorer`, `saved`, `settings`, `file-sheet`.
+Cada feature fica em `src/features/<nome>/` e separa `model`, `view` e `controller` (com `config` e `css` quando precisa). As features se comunicam por eventos, e o acesso ao Tasker passa por um adaptador de ambiente: o alias `@env` aponta para `src/core/env/tasker.environment.js` no build `tasker` e para `src/core/env/web.environment.js` no build `web`.
 
-## Convenções de marcação
+### Stack
 
-- HTML semântico: `header`, `main`, `nav`, `section`, `h1`–`h3`, `ul`/`li`, `dl`/`dt`/`dd`, `label[for]`, `button[type="button"]`, `strong`, `time`, `output`. Elemento clicável é `button`; `div` e `span` só quando não há elemento semântico melhor.
-- Classes em kebab-case, sem BEM (nada de `__` ou `--`): o nome diz o papel do elemento (`app-shell`, `section-heading`, `detail-row`), não a aparência.
-- Ids em kebab-case, sempre no formato `<contexto>-<papel>` (`search-input`, `clear-scope-button`, `file-sheet`). As views seguem `<nome>-view` (`search-view`, `results-view`…), e o router monta o id assim.
-- Classes de estado: `active` (aba, view, modo, chip ligado), `open` (overlay e sheet), `visible` (toast), `running` (barra de progresso) e `hidden` (utilitário).
+JavaScript (módulos ES) sem framework, [Vite](https://vite.dev/) com `vite-plugin-singlefile` e ícones do [Lucide](https://lucide.dev/), usados apenas em tempo de desenvolvimento.
 
-## Renderização
+## Segurança e privacidade
 
-Todo o markup estático (views, sheet, toast, labels, ícones fixos, selects com opções) vive em `index.html`.
-O JS só atualiza dados dinâmicos, sempre por seletor de `id` (kebab-case):
-
-- `*.view.js` exporta apenas `update.*` (mais `templates`/`helpers` quando a feature tem itens repetidos); não existe `render.page`.
-- Valores simples: `textContent`, `classList`, `value` em elementos já existentes no HTML (ex.: `#volume-free`, `#sheet-path`, `#results-count-value`).
-- Listas (arquivos, pastas, chips, stats, crumbs, opções de modelo…): o container já está no HTML (`#results-list`, `#explorer-list`, `#overview-stats`…) e o `view.js` só gera os itens e os injeta nele.
-- Ícones que mudam em runtime: o `<svg data-icon-slot><use href="#i-…"/></svg>` fica no HTML e `setIcon(container, nome)` troca só o `href` (ver "Ícones").
-
-## Primeiro paint
-
-O `index.html` já nasce completo: texto em `pt` escrito dentro de cada `data-i18n`, `placeholder` escrito junto de `data-i18n-placeholder`, cards da visão geral (`#stat-volumes`, `#stat-free`, `#stat-last-search`) e ícones já expandidos pelo plugin (sprite inline injetado no build). Nada disso espera o JS nem a leitura do `settings.json`.
-
-O `init()` é síncrono: renderiza com os padrões (`pt`, tema escuro) e dispara a carga inicial sem `await`. Cada carga é independente e atualiza só a sua parte da tela quando termina: o `storage.init()` aplica o que difere (idioma salvo, tema, API key e modelo, via evento `storage:ready`) e o `explorer.loadVolumes()` atualiza visão geral, header do explorer e raízes em Ajustes. O último resultado de `volumes` fica em `localStorage` (`seekra_volumes`): no próximo início o `explorer.restoreVolumes()` preenche visão geral, escopo e Ajustes na hora, e o `loadVolumes()` atualiza quando o Tasker responde. Se o `localStorage` estiver indisponível no WebView, tudo segue como antes. Tema e idioma seguem o mesmo caminho: o `storage` espelha só `theme`, `language` e `favorites` em `localStorage` (`seekra_preferences`, nunca a chave da API), o `app.js` aplica o idioma antes do `initChain` e um `<script>` no `<head>` define o `data-theme` antes do primeiro paint. Quando o `settings.json` termina de ler, o valor do arquivo prevalece e o espelho é atualizado. O `storage` mescla o que o usuário alterou durante a leitura e só grava depois que ela termina, para não sobrescrever o `settings.json`.
-
-## Favoritos
-
-A lista de pastas favoritas (caminhos absolutos) vive no `storage`, na chave `favorites`, e portanto no `settings.json`. Quem manda nela é a feature `saved` (`saved.model.js`: `getFolders`, `isFavorite`, `toggleFavorite`); nenhuma outra feature grava a lista.
-
-- Alterar: qualquer tela emite `favorite:toggle { path }`. O `saved.controller` alterna no model, redesenha a página Salvas, emite `favorites:changed { path, added }` e mostra o toast.
-- Ler: o Explorer consulta `isFavorite(caminhoAtual)` a cada render do header, em `favorites:changed` e em `storage:ready`, e o botão `#favorite-button` ganha a classe `active` e o rótulo "Favoritada" (estrela preenchida). A página Salvas redesenha em `favorites:changed`, `storage:ready` e `language:changed`.
-- Enquanto o usuário nunca favoritou nem desfavoritou nada, vale a lista inicial de `FAVORITE_FOLDERS` (`saved.config.js`); na primeira alteração a lista completa é gravada e passa a valer só ela (lista vazia continua vazia).
-- Favorita de um volume que não está montado (cartão SD removido) continua listada; tocar nela mostra o toast `explorer.unavailable`.
-
-## Ícones
-
-Os desenhos vêm do lucide, mas só em tempo de desenvolvimento: `lucide` é `devDependency` e nada dele entra no bundle.
-
-- `src/shared/components/icon.config.js` (gerado, não edite à mão) guarda o miolo do `<svg>` de cada ícone usado: `ICONS = { 'search': '<path …/>', … }`.
-- No HTML você escreve `<i data-icon="search" class="icon-sm"></i>`. No dev e no build, `scripts/icon-sprite.plugin.js` expande cada uma em `<svg class="icon-sm" aria-hidden="true"><use href="#i-search"/></svg>` e troca o marcador `<!-- icon-sprite -->` por um sprite com um `<symbol id="i-<nome>">` por ícone. O primeiro paint já sai com tudo, sem esperar JS (aberto sem o Vite, o `index.html` fica sem ícones).
-- No JS, `icon('search', 'icon-sm')` devolve o mesmo `<svg><use>` já expandido. Cor e traço ficam no `<symbol>`; o preenchimento também, mas lê a variável `--icon-fill` (padrão `none`): para um ícone preenchido, o CSS só declara `--icon-fill: currentColor` no `svg` (é o que `.button.active svg` e `.icon-button.active svg` fazem na estrela de favorito). O tamanho vem das classes `icon-*` ou do CSS do contêiner.
-- Slot que muda em runtime: `<i data-icon-slot data-icon="search" class="icon-sm"></i>` no HTML e `setIcon(container, nome)`, que troca só o `href`. Não existe mais `refreshIcons()`.
-
-Ícone novo (ou removido): use `data-icon="nome"` no HTML ou o nome entre aspas no JS (`icon: 'bell'`) e rode `npm run icons`; o `npm run dev`, o `build` e o `build:web` já rodam sozinho. O comando refaz o config do zero a partir do `index.html` e de todo literal em `src/**/*.js` que seja nome de ícone do lucide, então ícone que deixou de ser usado sai sozinho. Palavra solta que por acaso é um ícone do lucide (ex.: `list`) entra no sprite sem necessidade, ~200 B cada.
-
-Nome montado por concatenação não é visto pelo gerador: escreva o literal.
-
-Se o HTML referenciar um ícone fora do config, o build falha dizendo o nome. O build também falha se sobrar alguma `<i data-icon>` sem expandir (autofechada, com conteúdo dentro ou sem `</i>`), listando os nomes; quebra de linha antes do `>` do fechamento (`</i⏎>`, formato do Prettier) é aceita. No JS, nome com erro de digitação ou não literal não falha o script: o dev avisa no console (`[icon] "x" não está no sprite`).
-
-## Fila de execução
-
-`createExecutionQueue(run, { concurrency })` executa até `concurrency` jobs ao mesmo tempo (`PARALLEL_JOBS = 3` nos dois ambientes; o padrão da função continua 1). Jobs com a mesma `key` formam uma pista e nunca se sobrepõem: buscas usam `query` (com `replace`) e leitura/escrita do mesmo arquivo usam `file:<caminho>`, então um `write` nunca passa na frente de um `read`/`write` anterior. Jobs sem `key` (volumes, list, hash, ping…) rodam em paralelo.
-
-No Tasker, a task `SK 02 - EXEC` precisa estar com *Collision Handling* = **Run Both Together**; no padrão (*Abort New Task*), chamadas simultâneas seriam abortadas.
-
-## Traduções
-
-Texto fixo usa `data-i18n="chave"` e placeholder usa `data-i18n-placeholder="chave"`, sempre com o texto `pt` já escrito no HTML. `applyTranslations()` roda no `init()` (sem efeito visível quando o HTML está em dia) e a cada mudança de idioma.
-Ao mudar uma string de `pt.json`, atualize também o texto correspondente no `index.html`.
-Para estados que mudam a chave em runtime, use `translate(elemento, chave)` / `translatePlaceholder(elemento, chave)`; o idioma passa a acompanhar a nova chave.
-Textos com parâmetros (`{{size}}`, `{{count}}`…) continuam via `t()` no `view.js`. Trechos em negrito são elementos `<strong data-i18n>` no HTML (a string é dividida em chaves).
-
-## Protocolo JS → Tasker
-
-Sem base64. A variável `%args` leva texto cru: 1ª linha = operação, demais linhas = `chave=valor`
-(valor com quebra de linha vira chave repetida). O texto **não** passa pela linha de comando do shell:
-o `exec.bsh` (ação Java Code) executa `ping`, `volumes`, `list`, `hash`, `read` e `write` em Java e, para `search`, `ia`,
-`open` e `share`, grava `%args` num arquivo `.in.<rid>` na pasta de arquivos do Tasker e chama o `seekra.sh` com o caminho dele.
-O retorno (`%renv`) continua sendo um envelope JSON em base64.
-
-## Tasker
-
-Veja `tasker/SETUP.md`.
+- Toda busca e listagem fica restrita aos volumes autorizados; caminhos com `..` e pastas fora das raízes são recusados.
+- Comandos gerados pela IA passam por duas validações, no app e no `seekra.sh`: só `find` com opções de leitura, terminado em `-print`, sem caracteres de shell e sem `-exec` ou `-delete`.
+- A única comunicação externa do app é com a API do Gemini, e só no modo IA. Ela leva o texto do pedido e os caminhos das raízes autorizadas, junto com a chave.
+- A chave do Gemini é gravada em texto simples no `settings.json`, no armazenamento do aparelho.
